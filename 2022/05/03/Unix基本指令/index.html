@@ -1,0 +1,628 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="phoenix xie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.ls当你第一次登录时，你的当前工作目录是你的主目录。你的主目录的名称与你的用户名相同。  （这里我本人使用的是macos系统，可能与linux系统等类UNIX系统名称略有差异）。 要想知道你的主目录里有什么，请输入 1$  ls  ls命令列出了你当前工作目录的内容。  事实上，ls不会使你的主目录中的所有文件都被列出，而只是那些名字不以点（.）开头的文件。以点（.）开头的文件被称为隐藏文件，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unix基本指令">
+<meta property="og:url" content="http://xiaoxietongxue.github.io/2022/05/03/Unix%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="phoenix的小破站">
+<meta property="og:description" content="1.ls当你第一次登录时，你的当前工作目录是你的主目录。你的主目录的名称与你的用户名相同。  （这里我本人使用的是macos系统，可能与linux系统等类UNIX系统名称略有差异）。 要想知道你的主目录里有什么，请输入 1$  ls  ls命令列出了你当前工作目录的内容。  事实上，ls不会使你的主目录中的所有文件都被列出，而只是那些名字不以点（.）开头的文件。以点（.）开头的文件被称为隐藏文件，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhudcxlqj20j6088t8u.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhuci1qij21xa06u76b.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhubr4nhj21m30u07am.jpg">
+<meta property="article:published_time" content="2022-05-03T12:34:00.000Z">
+<meta property="article:modified_time" content="2022-05-03T12:37:28.268Z">
+<meta property="article:author" content="phoenix xie">
+<meta property="article:tag" content="Unix">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhudcxlqj20j6088t8u.jpg">
+  
+  
+  <title>Unix基本指令 - phoenix的小破站</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"xiaoxietongxue.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>phoenix的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Unix基本指令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-03 20:34" pubdate>
+        2022年5月3日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Unix基本指令</h1>
+            
+            <div class="markdown-body">
+              <h2 id="1-ls"><a href="#1-ls" class="headerlink" title="1.ls"></a>1.ls</h2><p>当你第一次登录时，你的当前工作目录是你的主目录。你的主目录的名称与你的用户名相同。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhudcxlqj20j6088t8u.jpg" srcset="/img/loading.gif" lazyload alt="image-20220319102544785"></p>
+<p>（这里我本人使用的是macos系统，可能与linux系统等类UNIX系统名称略有差异）。</p>
+<p>要想知道你的主目录里有什么，请输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">ls</span></span><br></code></pre></td></tr></table></figure>
+
+<p>ls命令列出了你当前工作目录的内容。</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhuci1qij21xa06u76b.jpg" srcset="/img/loading.gif" lazyload alt="image-20220319103034059"></p>
+<p>事实上，ls不会使你的主目录中的所有文件都被列出，而只是那些名字不以点（.）开头的文件。以点（.）开头的文件被称为隐藏文件，通常包含重要的程序配置信息。它们是隐藏的，因为你不应该改变它们，除非你对UNIX非常熟悉！！。</p>
+<p>要列出你的主目录中的所有文件，包括那些名字以点开头的文件，键入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">ls</span> -a</span><br></code></pre></td></tr></table></figure>
+
+<p>此处加上了(-a)的指令参数，为方便记忆，a可以联系all（全部文件）</p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhubr4nhj21m30u07am.jpg" srcset="/img/loading.gif" lazyload alt="image-20220319103550188"></p>
+<p>与之前的图进行对比，不难发现，加上（-a）参数后出现了很多以点（.)开头的隐藏文件</p>
+<p>ls是一个可以接受选项的命令的例子。-a是一个选项的例子。这些选项改变命令的行为。网上有一些手册，告诉你一个特定的命令可以接受哪些选项，以及每个选项是如何改变命令的行为的。</p>
+<hr>
+<h2 id="2-mkdir"><a href="#2-mkdir" class="headerlink" title="2.mkdir"></a>2.mkdir</h2><p>即“make directory”——创建一个目录（文件夹）</p>
+<p>上文已经提到，我们的当前工作目录是主目录，即和我的用户名相同的目录，现在，我想在这个目录下创建一个文件夹（名称为unix_learning)，输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">mkdir</span> unix_learning</span><br></code></pre></td></tr></table></figure>
+
+<p>这样就可以在目录下发现新的文件夹unix_learning</p>
+<p>为了进行验证，有如下两种方法可以采用：</p>
+<ul>
+<li><p>再使用之前的ls指令查看到你创建的新文件夹</p>
+</li>
+<li><p>到图形界面下的文件夹中去寻找那个新创建的文件夹</p>
+</li>
+</ul>
+<hr>
+<h2 id="3-cd"><a href="#3-cd" class="headerlink" title="3.cd"></a>3.cd</h2><p>cd directory命令的意思是将当前工作目录改为 “directory”。当前工作目录可以被认为是你所在的目录，即你在文件系统树中的当前位置。</p>
+<p>要改变到你刚刚制作的目录，键入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> unix_learning</span><br></code></pre></td></tr></table></figure>
+
+<p>输入ls指令，如果你操作无误的话，你会发现文件夹是空的(但是加入-a参数后可能会有一些隐藏文件，这个是系统自动生成的，我们可以不予理会)</p>
+<hr>
+<h2 id="4-目录-和"><a href="#4-目录-和" class="headerlink" title="4.目录 . 和 .."></a>4.目录 . 和 ..</h2><h3 id="4-1当前工作目录"><a href="#4-1当前工作目录" class="headerlink" title="4.1当前工作目录(.)"></a>4.1当前工作目录(.)</h3><p>键入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> .</span><br></code></pre></td></tr></table></figure>
+
+<p>执行完这条指令后，你会发现你仍然停留在之前的工作目录</p>
+<p>&#x3D;&#x3D;注意：如果你的代码出现异常，请检查cd和点之间是否有空格，他们不能连在一起！&#x3D;&#x3D;</p>
+<h3 id="4-2-父目录"><a href="#4-2-父目录" class="headerlink" title="4.2 父目录(..)"></a>4.2 父目录(..)</h3><p>键入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> ..</span><br></code></pre></td></tr></table></figure>
+
+<p>执行完这条指令后，你会发现你的工作目录来到了上一级（即向文件树顶端root方向前进了一级），我们也称来到了父目录</p>
+<p>&#x3D;&#x3D;注意： 依然要检查空格问题！&#x3D;&#x3D;</p>
+<hr>
+<h2 id="5-文件路径以及pwd指令"><a href="#5-文件路径以及pwd指令" class="headerlink" title="5.文件路径以及pwd指令"></a>5.文件路径以及pwd指令</h2><h3 id="5-1-绝对路径"><a href="#5-1-绝对路径" class="headerlink" title="5.1 绝对路径"></a>5.1 绝对路径</h3><p>绝对路径一定是由根目录 &#x2F; 开始写起。例如 &#x2F;usr&#x2F;local&#x2F;mysql</p>
+<h3 id="5-2-相对路径"><a href="#5-2-相对路径" class="headerlink" title="5.2 相对路径"></a>5.2 相对路径</h3><p>路径的写法不是由根目录 &#x2F; 写起的，例如 首先用户进入到 &#x2F;home，然后再进入到test，执行的命令为 “#cd &#x2F;home,#cd test”。此时用户所在的路径为 &#x2F;home&#x2F;test。第一个cd命令后紧跟&#x2F;home，前面有斜杠；而第二个cd命令后紧跟test，前面没有斜杠。这个test是相对于&#x2F;home目录来讲的，所以称为相对路径。<br>[原文链接][<a target="_blank" rel="noopener" href="https://blog.csdn.net/daocaokafei/article/details/116851192]">https://blog.csdn.net/daocaokafei/article/details/116851192]</a></p>
+<h3 id="5-3-pwd指令"><a href="#5-3-pwd指令" class="headerlink" title="5.3 pwd指令"></a>5.3 pwd指令</h3><p>在shell中输入如下指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">pwd</span></span><br></code></pre></td></tr></table></figure>
+
+<p>便可以查看当前的绝对路径</p>
+<hr>
+<h2 id="6-文件复制与cp指令"><a href="#6-文件复制与cp指令" class="headerlink" title="6.文件复制与cp指令"></a>6.文件复制与cp指令</h2><p>cp(英文copy缩写),不加参数的默认状态下可以对文件进行复制操作；在加入参数后可以对文件夹进行复制操作，但需要注意的是，文件夹的权限可能发生改变；本教程仅提供不加入参数的实例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cp</span> file1 file2</span><br></code></pre></td></tr></table></figure>
+
+<p>一个简单的实例：</p>
+<ul>
+<li><p>背景：在主目录下有两个文件夹cp_1和cp_2,cp_1下有一个文件名称为phoenix.rtf，现在要将这个名为phoenix的文件夹复制到cp_2下,并且改名为PHOENIX.rtf</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AF%8C%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F/1017816">富文本格式_百度百科 (baidu.com)</a></li>
+</ul>
+</li>
+<li><p>代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cp</span> /Users/xiechenfeng/cp_1/phoenix.rtf  /Users/xiechenfeng/cp_2/PHOENIX.rtf</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+</li>
+</ul>
+<h2 id="7-文件转移与mv指令"><a href="#7-文件转移与mv指令" class="headerlink" title="7.文件转移与mv指令"></a>7.文件转移与mv指令</h2><p>mv(英文move缩写)，不加参数时就可以对文件和文件夹进行转移,但是如果想转移多个文件或文件夹需要加入参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">  <span class="hljs-built_in">mv</span> file1 file2</span> <br></code></pre></td></tr></table></figure>
+
+<p>一个简单的实例：</p>
+<ul>
+<li><p>背景：将刚才的cp_1和cp_2改名为mv_1和mv_2，试将mv_1中的phoenix文件夹和phoenix.rtf文件转移到mv_2中</p>
+</li>
+<li><p>代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">mv</span> /Users/xiechenfeng/mv_1/phoenix.rtf  /Users/xiechenfeng/mv_2</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">mv</span> /Users/xiechenfeng/mv_1/phoenix  /Users/xiechenfeng/mv_2</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>另外，利用mv指令还可以实现对一个文件或者文件夹的重命名，只需要将目标路径写作（.&#x2F;修改后的名称)即可（在上文讲过，.代表当前路径）</p>
+<hr>
+<h2 id="8-屏幕显示指令-（clear、cat）"><a href="#8-屏幕显示指令-（clear、cat）" class="headerlink" title="8.屏幕显示指令 （clear、cat）"></a>8.屏幕显示指令 （clear、cat）</h2><h3 id="8-1-clear-clear-screen"><a href="#8-1-clear-clear-screen" class="headerlink" title="8.1 	clear(clear screen)"></a>8.1 	clear(clear screen)</h3><p>在开始下一节之前，你可能想清除终端窗口中以前的命令，这样就可以清楚地了解下面命令的输出。</p>
+<p>在终端下，输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> clear</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>执行完这条指令后，可以实现清屏</p>
+<h3 id="8-2-cat-concatenate"><a href="#8-2-cat-concatenate" class="headerlink" title="8.2 	cat(concatenate)"></a>8.2 	cat(concatenate)</h3><p>命令用于连接文件并打印到标准输出设备上。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhangchenliang/p/7717602.html">Linux cat命令详解 - Danny Chen - 博客园 (cnblogs.com)</a></p>
+<hr>
+<h2 id="10-帮助命令（man-whatis-apropos"><a href="#10-帮助命令（man-whatis-apropos" class="headerlink" title="10. 帮助命令（man,whatis,apropos)"></a>10. 帮助命令（man,whatis,apropos)</h2><h3 id="10-1-在线教程"><a href="#10-1-在线教程" class="headerlink" title="10.1 在线教程"></a>10.1 在线教程</h3><p>有一些在线手册，提供了关于大多数命令的信息。手册页告诉你一个特定的命令可以使用哪些选项，以及每个选项如何修改命令的行为。输入man command可以阅读某个特定命令的手册页。</p>
+<p>例如，要了解更多关于wc（字数统计）命令的信息，请输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">   man <span class="hljs-built_in">wc</span></span><br></code></pre></td></tr></table></figure>
+
+<p>还可以用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">  whatis <span class="hljs-built_in">wc</span></span><br></code></pre></td></tr></table></figure>
+
+<p>给出了命令的单行描述，但省略了关于选项(options)等的任何信息。</p>
+<h3 id="10-2-不确定名称时寻找教程"><a href="#10-2-不确定名称时寻找教程" class="headerlink" title="10.2 不确定名称时寻找教程"></a>10.2 不确定名称时寻找教程</h3><p>当你不确定帮助的具体名称时，输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> apropos keyword</span><br></code></pre></td></tr></table></figure>
+
+<p>会给你提供在其手册页头有关keyword的命令。</p>
+<p>例如，尝试输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> apropos copy</span><br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Unix/">Unix</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/03/ROS%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ROS核心概念</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/03/Unix%E5%8F%98%E9%87%8F/">
+                        <span class="hidden-mobile">Unix变量</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://xiaoxietongxue.github.io/2022/05/03/Unix%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/';
+          this.page.identifier = '/2022/05/03/Unix%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

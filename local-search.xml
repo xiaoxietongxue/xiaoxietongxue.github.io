@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>博客搭建(一)</title>
+    <link href="/2022/05/30/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA(%E4%B8%80)/"/>
+    <url>/2022/05/30/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA(%E4%B8%80)/</url>
+    
+    <content type="html"><![CDATA[<h2 id="前述"><a href="#前述" class="headerlink" title="前述"></a>前述</h2><p>我于今年5月4日接触博客搭建，当时受到一位同样喜欢研究计算机技术的学长的启发。学长说hexo+github可以免费搭建一个自定义程度很高的个人博客，而且还不需要太多的基础，对小白十分友好。</p><p>于是我花了近乎一整天的时间，完全零基础入门，在csdn和各大博客网站上寻找教程，成功搭建了hexo博客，并且把之前自己整理的markdown笔记都通过hexo推送到了github pages上去；部署好了内容，我又尝试了几个模板，最后感觉fluid模板颜值比较贴合自己的审美，并且它可支持的插件也比较多，后续可以加上评论区、网页访问量统计等很有意思的功能，于是我就使用了fluid主题。</p><p>最近搬到了实验室，手头有windows的台式机和装载着macos的macbook，于是我想：可不可以让windows和macos都成为博客推送的终端？这样我在每一台设备都可以独立编辑markdown文件并实现博客的网页的更新，这听上去就很酷诶！</p><p>于是在昨天我利用周末的下午，尝试着运用git去进行云端的同步。可是我本来对git技术不是很熟悉，可能平常使用最多的就是用git clone去克隆个仓库的包，于是又跑去看廖雪峰大佬的git教程。不得不说，大佬就是大佬，廖雪峰的git教程简洁凝练，讲得通俗易懂，并且很适合遗忘时查找自己感到模糊的内容。渐渐地，用git来实现我的需求似乎变得越来越清晰了！下午上课课间，知乎推给我一篇跟我经历很类似的人对hexo博客搭建的原理的一点小小总结，看了之后感慨颇丰，于是自己也赶忙写篇博文，用下文来记录一下自己对hexo博客理解的点滴进步。以下内容权当是对博客以及博客搭建的入门知识的梳理，作为一个小小总结吧，当然也不全是枯燥乏味的硬核知识，也穿插了搜索资料过程中找到的一些很有意思的内容。</p><h2 id="博客（BLOG）系统的历史渊源与功能"><a href="#博客（BLOG）系统的历史渊源与功能" class="headerlink" title="博客（BLOG）系统的历史渊源与功能"></a>博客（BLOG）系统的历史渊源与功能</h2><p>在搭建Blog系统之前，我们有必要先了解一下Blog系统是干什么的，它都应该有哪些功能。</p><p>Blog是在2000年左右出现的，原本的称法为weblog，即网络日志。后来逐渐被人们改为 we blog，进而简称为Blog。Blog中的每一篇文章&#x2F;日志就是一个页面，Blog将这些页面聚集在一起就形成了现在的形式。</p><p>现在大家在写Blog时已经很少直接写在页面里了，而是改用Markdown语法，这种语法非常简洁，特别适合我们平常的写作。所以现今的Blog系统最重要的一个环节就是，将Markdown语法写成的文档转化成HTML页面，然后放到Web服务器上发布出来。除此之外，Blog还要有一个管理系统可以将这些页面管理起来，如生成目录、标签，分类、搜索等等。</p><p>如果要我们自己实现这样一套系统还是非常麻烦的，好在已经有开源项目实现了，这就是<strong>hexo</strong>。hexo 不但实现了这些功能，还实现了很多其它的功能，如文章浏览次数、打赏、接入评论系统等等。</p><h2 id="个人对博客意义的小思考"><a href="#个人对博客意义的小思考" class="headerlink" title="个人对博客意义的小思考"></a>个人对博客意义的小思考</h2><p>对于我个人而言，博客也具有着很大的意义。我后悔没有早点接触博客，写第一篇博文大概是半年前的样子。我觉得写博客有一个很重大的意义在于建立知识体系、梳理心得体会。时至今日，回首三年大学学习生涯，感慨就是自己的知识体系过于松散，很多大学的课都是考试到了眼前匆匆复习，课堂学习浮光掠影；亦或是从头到尾认真学习了一堂课、也很认真的去思考了一些很深刻的问题，却因没来得及记录，以后想用到时却只能望洋兴叹。而眼下我离研究生生活越来越近，而要想成为一个优秀的research就必须对知识有一个清晰的脉络和总结，所以现在的我需要博客这样的知识管理系统，来辅助构建自己的”第二大脑”。</p><h2 id="博客框架Hexo"><a href="#博客框架Hexo" class="headerlink" title="博客框架Hexo"></a>博客框架Hexo</h2><p><a href="https://hexo.bootcss.com/docs/">官网网址</a>，从这里你可以学到</p><ul><li>如何安装hexo</li><li>如何配置部署hexo博客</li><li>hexo博客的详细配置方案</li></ul><p>后续一旦需要还会时常进行查阅</p><h2 id="目前使用过的一些主题以及"><a href="#目前使用过的一些主题以及" class="headerlink" title="目前使用过的一些主题以及"></a>目前使用过的一些主题以及</h2><h3 id="fluid（当前）"><a href="#fluid（当前）" class="headerlink" title="fluid（当前）"></a>fluid（当前）</h3><p><a href="https://hexo.fluid-dev.com/docs/start/#%E4%B8%BB%E9%A2%98%E7%AE%80%E4%BB%8B">开始使用 | Hexo Fluid 用户手册 (fluid-dev.com)</a></p><h3 id="next"><a href="#next" class="headerlink" title="next"></a>next</h3><p><a href="http://theme-next.iissnan.com/getting-started.html">开始使用 - NexT 使用文档 (iissnan.com)</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>git常用指令总结</title>
+    <link href="/2022/05/28/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%80%BB%E7%BB%93/"/>
+    <url>/2022/05/28/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%80%BB%E7%BB%93/</url>
+    
+    <content type="html"><![CDATA[<h2 id="设置邮箱、账户名-查询邮箱、账户名"><a href="#设置邮箱、账户名-查询邮箱、账户名" class="headerlink" title="设置邮箱、账户名 + 查询邮箱、账户名"></a>设置邮箱、账户名 + 查询邮箱、账户名</h2><p>设置邮箱、账户名</p><figure class="highlight stylus"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs stylus">git config <span class="hljs-attr">--global</span> user<span class="hljs-selector-class">.name</span> <span class="hljs-string">&quot;Your Name&quot;</span><br>git config <span class="hljs-attr">--global</span> user<span class="hljs-selector-class">.email</span> <span class="hljs-string">&quot;email@example.com&quot;</span><br></code></pre></td></tr></table></figure><p>注：此处global参数是指定所有文件夹进行该设置</p><p>查看邮箱、账户名</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">git config <span class="hljs-keyword">user</span>.name<br>git config <span class="hljs-keyword">user</span>.email<br></code></pre></td></tr></table></figure><h2 id="创建版本库（也称仓库——repository"><a href="#创建版本库（也称仓库——repository" class="headerlink" title="创建版本库（也称仓库——repository)"></a>创建版本库（也称仓库——repository)</h2><p>随便找一个地方建一个文件夹，在文件夹目录下</p><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">git <span class="hljs-keyword">init</span><br></code></pre></td></tr></table></figure><p>通过以上这个指令进行仓库的初始化，建好之后文件夹中会多出一个.git文件</p><h2 id="在仓库中提交文件"><a href="#在仓库中提交文件" class="headerlink" title="在仓库中提交文件"></a>在仓库中提交文件</h2><p>可以拆解为两步：</p><p>第一步，我们先在仓库中自己手动创建一个文本文件,比如我们创建一个有内容的txt文件</p><p>第二步，把文件添加进来这件事告诉git，并且作一定的说明</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">git <span class="hljs-keyword">add</span> readme.txt<br>git <span class="hljs-keyword">commit</span> -m &quot;explanation_contents&quot;<br></code></pre></td></tr></table></figure><p><code>git commit</code>命令执行成功后会告诉你:</p><p><code>1 file changed</code>：1个文件被改动（我们新添加的readme.txt文件）；</p><p><code>2 insertions</code>：插入了两行内容（readme.txt有两行内容）。</p><p>注意可以多次add文件，一次comment上交报告</p><p>比如</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">git <span class="hljs-built_in">add</span> file1.txt<br>git <span class="hljs-built_in">add</span> file2.txt file3.txt<br>git commit -m <span class="hljs-string">&quot;add three txt files&quot;</span><br></code></pre></td></tr></table></figure><h2 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h2><p>你不断对文件进行修改，然后不断提交修改到版本库里，就好比玩RPG游戏时，每通过一关就会自动把游戏状态存盘，如果某一关没过去，你还可以选择读取前一关的状态。有些时候，在打Boss之前，你会手动存盘，以便万一打Boss失败了，可以从最近的地方重新开始。Git也是一样，每当你觉得文件修改到一定程度的时候，就可以“保存一个快照”，这个快照在Git中被称为<code>commit</code>。一旦你把文件改乱了，或者误删了文件，还可以从最近的一个<code>commit</code>恢复，然后继续工作，而不是把几个月的工作成果全部丢失。</p><p>那么我们在出现问题时，应该怎么回退到之前的版本呢？</p><p>第一步，</p><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">git <span class="hljs-built_in">log</span><br></code></pre></td></tr></table></figure><p>通过该指令查看日志信息</p><p>如果嫌输出信息太多，看得眼花缭乱的，可以试试加上<code>--pretty=oneline</code>参数：</p><p>好了，现在我们启动时光穿梭机，准备把<code>readme.txt</code>回退到上一个版本，</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">git <span class="hljs-keyword">reset</span> <span class="hljs-comment">--hard HEAD^</span><br></code></pre></td></tr></table></figure><p>通过该指令便可以回退到前一个版本</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">git <span class="hljs-built_in">ref</span>log<br></code></pre></td></tr></table></figure><p>通过该指令可以记录你的每一次命令</p><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">git</span> <span class="hljs-string">reset</span> <span class="hljs-built_in">--hard</span> <span class="hljs-string">&quot;number&quot;</span><br></code></pre></td></tr></table></figure><p>通过这个指令便可以回退到任意一个你想要的版本</p><h2 id="查看版本状态"><a href="#查看版本状态" class="headerlink" title="查看版本状态"></a>查看版本状态</h2><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">git status</span><br></code></pre></td></tr></table></figure><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2okt8wz22j20r60eiaax.jpg" alt="image-20220529001853942"></p><p><code>git add</code>命令实际上就是把要提交的所有修改放到暂存区（Stage），然后，执行<code>git commit</code>就可以一次性把暂存区的所有修改提交到分支。</p><h2 id="对比版本库提交文件和当前文件"><a href="#对比版本库提交文件和当前文件" class="headerlink" title="对比版本库提交文件和当前文件"></a>对比版本库提交文件和当前文件</h2><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">git diff HEAD <span class="hljs-comment">-- readme.txt</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>SCI的两三事：JCR分区和中科院分区</title>
+    <link href="/2022/05/28/SCI%E7%9A%84%E4%B8%A4%E4%B8%89%E4%BA%8B%EF%BC%9AJCR%E5%88%86%E5%8C%BA%E5%92%8C%E4%B8%AD%E7%A7%91%E9%99%A2%E5%88%86%E5%8C%BA/"/>
+    <url>/2022/05/28/SCI%E7%9A%84%E4%B8%A4%E4%B8%89%E4%BA%8B%EF%BC%9AJCR%E5%88%86%E5%8C%BA%E5%92%8C%E4%B8%AD%E7%A7%91%E9%99%A2%E5%88%86%E5%8C%BA/</url>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>SCI、核心期刊等词儿大家早已耳熟能详，不过今天主要讲的是“分区”。</p><p>说分区之前要先了解下几个基本概念，<strong>SCI</strong>(Science Citation Index)，科学引文索引，检索科技文献工具，被SCI收录的论文在一定程度上也代表相对高质量的论文。影响因子<strong>IF</strong>(Impact Factor)，反映期刊文献被引用率的高低&#x3D;期刊总引用次数&#x2F;总文章数，用来说明期刊的影响力。<strong>JCR</strong>(Journal Citation Reports)，期刊引证报告，汤森路透社每年对SCI收录的期刊进行引用和被引用数据进行统计计算，并以影响因子等指数加以报道形成的报告，用来评价期刊的质量。</p><h2 id="为什么要进行分区"><a href="#为什么要进行分区" class="headerlink" title="为什么要进行分区"></a>为什么要进行分区</h2><p>说完这些就要说为什么分区，其实也不难理解，分区就是为了体现学科之间的公平，因为学科有大小之分，像生物、医学这种发现新东西的学科很容易出现高影响因子期刊，而一些学科比如天文、社会等学类不仅期刊少，影响因子也不高。如果所有学科混在一起比较，对某些学科不公平。不同学科引用率间差异不能客观反映学科真实价值。所以比较期刊采用分区的方法，根据学科内部杂志水平来分档次，避免横向比较时受影响因子的不客观影响。</p><h2 id="如何进行分区"><a href="#如何进行分区" class="headerlink" title="如何进行分区"></a>如何进行分区</h2><p>汤森路透分区也就是常说的JCR分区，Journal ranking，相对比较简单，根据当年影响因子从高到低排序，等分成4等分，排名在前25%是1区，记作Q1；25-50%是2区，记作Q2；50-75%是3区，记作Q3；75%以后的属于4区，Q4。JCR分区可以从web of science进行查询，看期刊具体分区情况。</p><p>国内用的更多的是中科院期刊分区，是基于科学计量学方法的期刊评价数据，是中国科学院文献情报中心科学计量中心在汤森路透JCR分区的基础上，选择学术影响力作为划分方式，把每个学科的所有期刊按照学术影响力（3年平均IF）由高到底降序排列，依次划分为4个区，使得每个分区期刊影响力总和相同。</p><p>由于学科内期刊的3年IF的偏态分布，这使得1区期刊数量极少。为了保证期刊1区期刊数量，1区期刊取整个学科数量总数的5%，即3年平均IF最高的5%的期刊为1区期刊。2、3、4区期刊使用3年平均IF总和相同的方式划分（S2&#x3D;S3&#x3D;S4&#x3D; S&#x2F;3）。每个分区总影响因子相同，但依旧是总的按高低排序，所以2、3、4区期刊数量依次增多（基本同常见的：5%为1区，5-15%为2区，15-50%为3区，50%以后为4区）。</p><p>简而言之，中科院的分区比JCR的更加严格，也更加适应中国国情，中国科研部门使用最多的是中科院的分区。中科院分区不仅仅根据13个大类进行排名，还会根据177（最新）个不同学科进行小类分区，通常说的都是大区，小区分区容易导致期刊分区高。</p><h2 id="除了分区之外还有什么"><a href="#除了分区之外还有什么" class="headerlink" title="除了分区之外还有什么"></a>除了分区之外还有什么</h2><p>除分区之外，被引频次也可以反映期刊的学术影响力。1区期刊通常被视为各学科优秀期刊，但毕竟入选数量有限。为尽可能纳入更多优秀期刊，在分区结果的基础上，利用被引频次对期刊进行再次甄别，定义出TOP期刊。</p><p>最新版本的分区表里，大类的1区期刊默认为top期刊，大类的2区期刊中2年总被引频次位于前10%的期刊，经同行评议认定TOP期刊；小类1区期刊设置为top期刊；不在上述范围内的经过科学共同体评议，被认为是高学术影响力的期刊，也被采纳加入top期刊。</p><p>另外，针对综述类期刊，也是有区别对待。Review期刊多采用约稿且期刊分区占据着重要的位置，使得部分优秀原创期刊在中科院期刊分区中得不到好的位置，新版的分区方法中将Review期刊维持原来的分区不变，所有原创期刊使用分区方法重新计算分区，简单理解，Review期刊参与排序分区，但不占用分区名额。</p><p>文章转载自<a href="https://www.cingta.com/detail/10781">https://www.cingta.com/detail/10781</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>科研之路_每天进步一点点</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>什么是文献DOI？如何获取DOI？</title>
+    <link href="/2022/05/28/%E4%BB%80%E4%B9%88%E6%98%AF%E6%96%87%E7%8C%AEDOI%EF%BC%9F%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96DOI%EF%BC%9F/"/>
+    <url>/2022/05/28/%E4%BB%80%E4%B9%88%E6%98%AF%E6%96%87%E7%8C%AEDOI%EF%BC%9F%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96DOI%EF%BC%9F/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、什么是DOI？为什么要通过DOI来下载文献？"><a href="#一、什么是DOI？为什么要通过DOI来下载文献？" class="headerlink" title="一、什么是DOI？为什么要通过DOI来下载文献？"></a>一、什么是DOI？为什么要通过DOI来下载文献？</h2><p>DOI全称为<strong>Digital Object Unique Identifier</strong>，是指数字对象唯一标识符，可以理解为数字资源唯一的“身份证号码”，可以用DOI来标识文献、视频、报告或书籍等数字资源。</p><p>目前，大部分学术文献（主要为2000年之后的文献）都有专属的DOI，只要知道了一篇文献的DOI，就能够查询到该文献的作者、标题、期刊、官方链接等信息。</p><h2 id="二、DOI的格式"><a href="#二、DOI的格式" class="headerlink" title="二、DOI的格式"></a>二、DOI的格式</h2><p>每个DOI都由前缀和后缀两部分组成，之间用“&#x2F;”分开，并且前缀以“.”再分为两部分。前缀由国际数字对象识别号基金会（International DOI Foundation）确定，后缀部分由资源发布者自行指定，用于区分一个单独的数字资料，具有唯一性。</p><p>一般来说，年份久远（2000年之前）的文献没有DOI。至于中文文献，因为目前国内DOI的使用还处于初级阶段，所以现在还不能通过DOI来下载国内文献。</p><p>所有DOI均以“10”开头，如：</p><p>10.1016&#x2F;j.foodres.2017.07.078</p><p>10.1080&#x2F;09205063.2018.1465664</p><p>10.3969&#x2F;j.issn.1009-5500.2016.04.015</p><h2 id="三、如何获取DOI"><a href="#三、如何获取DOI" class="headerlink" title="三、如何获取DOI"></a>三、如何获取DOI</h2><p>1，最简单的办法就是通过搜索引擎搜索文献标题来获取的文献DOI。建议使用百度学术（<a href="https://link.zhihu.com/?target=https://xueshu.baidu.com/">https://xueshu.baidu.com/</a>）、必应学术（<a href="https://link.zhihu.com/?target=https://cn.bing.com/academic">https://cn.bing.com/academic</a>）和谷歌学术（<a href="https://link.zhihu.com/?target=https://scholar.google.com/">https://scholar.google.com/</a>）。</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2ngaf5smnj20fe07x74d.jpg" alt="img"></p><p>2，使用Crossref（<a href="https://link.zhihu.com/?target=https://search.crossref.org/">https://search.crossref.org/</a>）搜索。打开网址，直接输入文献标题、作者或其他信息即可获取DOI。但需要注意的是，该网站打开速度较慢，需要耐心等待。</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2ngaftquaj20fe08h74j.jpg" alt="img"></p><p>3，使用Libgen科研文献搜索（<a href="https://link.zhihu.com/?target=http://gen.lib.rus.ec/scimag/">http://gen.lib.rus.ec/scimag/</a>）。缺点是该网站有时可能不稳定，出现打不开等情况。</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h2ngagshh1j20fe05f0sx.jpg" alt="img"></p><p>文章转载自<a href="https://zhuanlan.zhihu.com/p/147494557">什么是DOI？如何获取文献的DOI？ - 知乎 (zhihu.com)</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>科研之路_每天进步一点点</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>sci论文、ei论文和ieee论文三者之间有什么区别？</title>
+    <link href="/2022/05/28/sci%E8%AE%BA%E6%96%87%E3%80%81ei%E8%AE%BA%E6%96%87%E5%92%8Cieee%E8%AE%BA%E6%96%87%E4%B8%89%E8%80%85%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/"/>
+    <url>/2022/05/28/sci%E8%AE%BA%E6%96%87%E3%80%81ei%E8%AE%BA%E6%96%87%E5%92%8Cieee%E8%AE%BA%E6%96%87%E4%B8%89%E8%80%85%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F/</url>
+    
+    <content type="html"><![CDATA[<p>我发现，许多新人搞不清楚SCI论文和EI论文的区别，可能是因为英文首字母缩写，还有些新人分不清EI论文和IEEE论文。<br>看来有必要专门澄清一下。</p><h2 id="一、sci、ei和ieee是什么？"><a href="#一、sci、ei和ieee是什么？" class="headerlink" title="一、sci、ei和ieee是什么？"></a>一、sci、ei和ieee是什么？</h2><h3 id="SCI-Science-Citation-Index"><a href="#SCI-Science-Citation-Index" class="headerlink" title="SCI(Science Citation Index)"></a>SCI(Science Citation Index)</h3><p>《科学引文索引》是由美国科学信息研究所(ISI)1961年创办出版的引文数据库，其覆盖生命科学、临床医学、物理化学、农业、生物、兽医学、工程技术等方面的综合性检索刊物，尤其能反映自然科学研究的学术水平，是目前国际上三大检索系统中最著名的一种，其中以生命科学及医学、化学、物理所占比例最大，收录范围是当年国际上的重要期刊。<br>SCI以《期刊目次》(Current Content)作为数据源，目前自然科学数据库有五千多种期刊，其中生命科学辑收录1350种;工程与计算机技术辑收录 1030种；临床医学辑收990种；农业、生物环境科学辑收录950种；物理、化学和地球科学辑收录900种期刊。<br>SCI是一种强大的期刊文献检索工具。它不同于按主题或分类途径检索文献的常规做法，而是设置了独特的“引文索引”，即将一篇文献作为检索词，通过收录其所引用的参考文献和跟踪其发表后被引用的情况来掌握该研究课题的来龙去脉，从而迅速发现与其相关的研究文献。“越查越旧，越查越新，越查越深”这是科学引文索引建立的宗旨。<br>许多国家和地区均以被SCI收录及引证的论文情况来作为评价学术水平的一个重要指标。但我们需要明确的是：SCI是一个客观的评价工具，它只能作为评价工作中的一个角度，不能代表被评价对象的全部。</p><h3 id="EI-The-Engineering-Index"><a href="#EI-The-Engineering-Index" class="headerlink" title="EI(The Engineering Index)"></a>EI(The Engineering Index)</h3><p>《工程索引》创刊于1884年，是美国工程信息公司(EngineeringinformationInc.)出版的著名工程技术类综合性检索工具。<br>EI每月出版1期，文摘1.3万至1.4万条；每期附有主题索引与作者索引；每年还另外出版年卷本和年度索引，年度索引还增加了作者单位索引。出版形式有印刷版(期刊形式)、电子版(磁带)及缩微胶片。<br>EI选用世界上工程技术类几十个国家和地区15个语种的3500余种期刊和1000余种会议录、科技报告、标准、图书等出版物。年报道文献量16万余条。收录文献几乎涉及工程技术各个领域。例如：动力、电工、电子、自动控制、矿冶、金属工艺、机械制造、土建、水利等。它具有综合性强、资料来源广、地理覆盖面广、报道量大、报道质量高、权威性强等特点。</p><p>EI收录的论文有两种：<br>1、EI Compendex 标引文摘(也称核心数据)<br>它收录论文的题录、摘要，并以主题词、分类号进行标引深加工。有没有主题词和分类号是判断论文，是否被EI正式收录的唯一标志。<br>2、EI Page One题录(也称非核心数据)<br>主要以题录形式报到。有的也带有摘要，但未进行深加工，没有主题词和分类号。所以Page One带有文摘不一定算做正式进入EI。<br>EI对稿件内容和学术水平的要求。EI不收录纯基础理论方面的论文。</p><h3 id="IEEE-Instituteof-Electrical-and-Electronics-Engineers"><a href="#IEEE-Instituteof-Electrical-and-Electronics-Engineers" class="headerlink" title="IEEE(Instituteof Electrical and Electronics Engineers)"></a>IEEE(Instituteof Electrical and Electronics Engineers)</h3><p><strong>美国电气和电子工程师学会</strong>(IEEE)是一个国际性的电子技术与信息科学工程师的学会，是世界上最大的专业技术组织之一(成员人数)。1963年1月1日由美国无线电工程师协会(IRE，创立于1912年)和美国电气工程师协会(AIEE，创建于1884年)合并而成，总部在美国纽约市。该组织在太空、计算机、电信、生物医学、电力及消费性电子产品等领域中都是主要的权威。专业上它有35个专业学会和两个联合会。IEEE发表多种杂志，学报，书籍和每年组织300多次专业会议。<br>学会的主要活动是召开会议、出版期刊杂志、制定标准、继续教育、颁发奖项、认证(Accreditation)等。IEEE制定了全世界电子和电气还有计算机科学领域30%的文献，另外它还制定了1300个现行工业标准，出版广泛的同级评审期刊，是主要的国际标准机构。<br>IEEE Xplore是一个学术文献数据库，主要提供计算机科学、电机工程学和电子学等相关领域文献的索引、摘要以及全文下载服务。它基本覆盖了电气电子工程师学会（IEEE）和英国工程技术学会（IET）的文献资料。</p><p>还要补充一句。EI（工程索引）现在属于爱思唯尔，而SCI（科学引文索引）如今属于科睿唯安。</p><h2 id="二、梳理一下sci、ei和ieee三者区别"><a href="#二、梳理一下sci、ei和ieee三者区别" class="headerlink" title="二、梳理一下sci、ei和ieee三者区别"></a>二、梳理一下sci、ei和ieee三者区别</h2><p><strong>1、</strong>SCI是科学引文检索，ei是工程检索，IEEE是一个组织&#x2F;出版社。<br>SCI&#x2F;EI主要是检索工具，可以理解为一个类似谷歌的搜索引擎，是对水平较高的期刊、杂志 、学术术会议的文章的收录，相当于<strong>评价者</strong>，评判你做的东西水平怎样；而IEEE主办了很多期刊和学术会议，相当于<strong>生产者</strong>。</p><p><strong>2、</strong>SCI使用JCR作为影响因子，EI是没有自己的影响因子的，IEEE的文章基本上都会被SCI和EI收录，旗下很多期刊属于SCI，会议论文多属ei，所以IEEE绝大多数期刊都有影响因子。</p><p><strong>3、</strong>SCI一般只收录期刊论文，会议论文只有少数顶尖部分会被收录；EI收录一些会议或者期刊（JA检索期刊文章、CA检索会议文章）；IEEE本身有出版很多的期刊，同时也会举办很多会议。</p><p><strong>4、</strong>SCI和EI收录的期刊不完全相同，但也会有重复的部分。</p><h2 id="三、sci、ei和ieee论文到哪里找"><a href="#三、sci、ei和ieee论文到哪里找" class="headerlink" title="三、sci、ei和ieee论文到哪里找"></a>三、sci、ei和ieee论文到哪里找</h2><p>了解了三者之间的区别之后，该如何获取对自己的科研和学习有价值的文献呢？</p><p>推荐一个资源丰富的网站<a href="https://link.zhihu.com/?target=https://www.zhangqiaokeyan.com/?from=01-103-ieee-42">掌桥科研中外文献网</a>，收录了世界各国出版的28000+种重要学术期刊，90000+个会议，680万+篇会议论文，共计1.4亿篇外文文献。小伙伴们想要获取更多sci、ei和ieee收录的论文，可登录网站进行检索并下载。</p><p>文章转载自<a href="https://zhuanlan.zhihu.com/p/487238976">https://zhuanlan.zhihu.com/p/487238976</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>科研之路_每天进步一点点</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>高效论文管理工具——zotero</title>
+    <link href="/2022/05/27/%E9%AB%98%E6%95%88%E8%AE%BA%E6%96%87%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94zotero/"/>
+    <url>/2022/05/27/%E9%AB%98%E6%95%88%E8%AE%BA%E6%96%87%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94zotero/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Zotero关联获取知网文献的方法"><a href="#Zotero关联获取知网文献的方法" class="headerlink" title="Zotero关联获取知网文献的方法"></a>Zotero关联获取知网文献的方法</h2><p><a href="https://blog.csdn.net/weixin_44042878/article/details/121457354">(10条消息) Zotero关联获取知网文献的方法_养猫达人薛定谔的博客-CSDN博客_zotero抓取不到知网pdf</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>zotero</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>机器学习</title>
+    <link href="/2022/05/17/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <url>/2022/05/17/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>safari浏览器的经验帖</title>
+    <link href="/2022/05/16/safari%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BB%8F%E9%AA%8C%E5%B8%96/"/>
+    <url>/2022/05/16/safari%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BB%8F%E9%AA%8C%E5%B8%96/</url>
+    
+    <content type="html"><![CDATA[<h2 id="IOS-safari"><a href="#IOS-safari" class="headerlink" title="IOS safari"></a>IOS safari</h2><ul><li><a href="https://zhuanlan.zhihu.com/p/396426074">https://zhuanlan.zhihu.com/p/396426074</a></li></ul><h2 id="macos-safari"><a href="#macos-safari" class="headerlink" title="macos safari"></a>macos safari</h2>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>nabla算子</title>
+    <link href="/2022/05/04/nabla%E7%AE%97%E5%AD%90/"/>
+    <url>/2022/05/04/nabla%E7%AE%97%E5%AD%90/</url>
+    
+    <content type="html"><![CDATA[<h2 id="创始人"><a href="#创始人" class="headerlink" title="创始人"></a>创始人</h2><p>哈密尔顿</p><h2 id="常用名称"><a href="#常用名称" class="headerlink" title="常用名称"></a>常用名称</h2><p>Nabla算子、哈密顿算子、向量微分算子、倒三角算子、劈形算子…，</p><h2 id="常用公式"><a href="#常用公式" class="headerlink" title="常用公式"></a>常用公式</h2><p>$$<br>\nabla \times(\nabla \phi)\equiv0 \tag{1}<br>$$</p><p>“梯度场无旋”</p><h3 id="验证（以三维空间笛卡尔坐标系为例）"><a href="#验证（以三维空间笛卡尔坐标系为例）" class="headerlink" title="验证（以三维空间笛卡尔坐标系为例）"></a>验证（以三维空间笛卡尔坐标系为例）</h3><p>$$<br>\nabla \phi&#x3D;(\frac{\partial \phi}{\partial x},\frac{\partial \phi}{\partial y},\frac{\partial \phi}{\partial z})<br>\<br>\<br>\nabla \times \nabla\phi&#x3D;<br>\left(<br>\begin{matrix}<br>\vec{i}&amp;\vec{j}&amp; \vec{k} \<br>\frac{\partial }{\partial x} &amp; \frac{\partial }{\partial y} &amp; \frac{\partial }{\partial z} \<br>\frac{\partial \phi}{\partial x} &amp; \frac{\partial \phi}{\partial y} &amp; \frac{\partial \phi}{\partial z}<br>\end{matrix}<br>\right)<br>&#x3D;0(二阶混合偏导数相等)<br>$$</p><hr><p>$$<br>\nabla \cdot(\nabla \times \vec{A})\equiv0 \tag{2}<br>$$<br>“旋度场无散”</p><hr>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Aerodynamics</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>话题通讯与publisher的编程实现</title>
+    <link href="/2022/05/04/%E8%AF%9D%E9%A2%98%E9%80%9A%E8%AE%AF%E4%B8%8Epublisher%E7%9A%84%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0/"/>
+    <url>/2022/05/04/%E8%AF%9D%E9%A2%98%E9%80%9A%E8%AE%AF%E4%B8%8Epublisher%E7%9A%84%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="话题模型图"><a href="#话题模型图" class="headerlink" title="话题模型图"></a>话题模型图</h2><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w594ujr3j21g40n2tae.jpg" alt="image-20220320181857469"></p><h2 id="publisher编程实现"><a href="#publisher编程实现" class="headerlink" title="publisher编程实现"></a>publisher编程实现</h2><p>1.首先根据上一讲内容初始化工作空间，之后创建功能包，执行如下代码</p><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$</span><span class="language-bash">catkin_create_pkg  learning_topic roscpp rospy std_msgs geometry_msgs turtlesim</span><br></code></pre></td></tr></table></figure><p>2.将编写好的cpp代码文件粘贴到learning_topic文件夹下的src文件夹中(velocity_publisher.cpp)</p><p>velocity_publisher.cpp代码如下</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/***********************************************************************</span><br><span class="hljs-comment">Copyright 2020 GuYueHome (www.guyuehome.com).</span><br><span class="hljs-comment">***********************************************************************/</span><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 该例程将发布turtle1/cmd_vel话题，消息类型geometry_msgs::Twist</span><br><span class="hljs-comment"> */</span><br> <br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ros/ros.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;geometry_msgs/Twist.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span></span><br><span class="hljs-function"></span>&#123;<br><span class="hljs-comment">// ROS节点初始化</span><br>ros::<span class="hljs-built_in">init</span>(argc, argv, <span class="hljs-string">&quot;velocity_publisher&quot;</span>);<br><br><span class="hljs-comment">// 创建节点句柄</span><br>ros::NodeHandle n;<br><br><span class="hljs-comment">// 创建一个Publisher，发布名为/turtle1/cmd_vel的topic，消息类型为geometry_msgs::Twist，队列长度10</span><br>ros::Publisher turtle_vel_pub = n.<span class="hljs-built_in">advertise</span>&lt;geometry_msgs::Twist&gt;(<span class="hljs-string">&quot;/turtle1/cmd_vel&quot;</span>, <span class="hljs-number">10</span>);<br><br><span class="hljs-comment">// 设置循环的频率</span><br><span class="hljs-function">ros::Rate <span class="hljs-title">loop_rate</span><span class="hljs-params">(<span class="hljs-number">10</span>)</span></span>;<br><br><span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">while</span> (ros::<span class="hljs-built_in">ok</span>())<br>&#123;<br>    <span class="hljs-comment">// 初始化geometry_msgs::Twist类型的消息</span><br>geometry_msgs::Twist vel_msg;<br>vel_msg.linear.x = <span class="hljs-number">0.5</span>;<br>vel_msg.angular.z = <span class="hljs-number">0.2</span>;<br><br>    <span class="hljs-comment">// 发布消息</span><br>turtle_vel_pub.<span class="hljs-built_in">publish</span>(vel_msg);<br><span class="hljs-built_in">ROS_INFO</span>(<span class="hljs-string">&quot;Publsh turtle velocity command[%0.2f m/s, %0.2f rad/s]&quot;</span>, <br>vel_msg.linear.x, vel_msg.angular.z);<br><br>    <span class="hljs-comment">// 按照循环频率延时</span><br>    loop_rate.<span class="hljs-built_in">sleep</span>();<br>&#125;<br><br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure><p>3.配置发布者代码编译规则</p><p>在CMakeList.txt中，需要配置两方面</p><ul><li>设置需要编译的代码和生成的可执行文件</li><li>设置链接库</li></ul><p>本例中，在CMakeLists.txt中相应位置加入如下代码</p><p>###<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w59559oxj20uu09yac1.jpg" alt="image-20220320182419980"> </p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">add_executable</span>(velocity_publisher src/velocity_publisher.cpp)<br><span class="hljs-keyword">target_link_libraries</span>(velocity_publisher <span class="hljs-variable">$&#123;catkin_LIBRARIES&#125;</span>)<br></code></pre></td></tr></table></figure><p>4.接着执行编译代码,先把工作目录调整到catkin_ws下</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> catkin_make</span><br></code></pre></td></tr></table></figure><p>执行完这条语句后，我们得到了可执行文件</p><p>5.如何使用刚才编译生成的可执行文件呢？刚才我们实际上编译好了一个功能包，要调用功能包，需要使用之前学的ROS命令行工具</p><p>我们需要启动三个终端</p><ul><li><p>终端一</p><ul><li><div class="code-wrapper"><pre><code class="shell">$  roscore<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><pre><code class="hljs crmsh"><br>  + 启动节点管理器 ROS <span class="hljs-keyword">MASTER</span><br><br><span class="hljs-title">+ 终端二</span><br><span class="hljs-title"></span><br><span class="hljs-title">  + ```shell</span><br>    $  rosrun turtlesim turtlesim_node<br></code></pre></td></tr></table></figure></code></pre></li><li><p>启动海龟仿真器节点</p></li></ul></li><li><p>终端三</p><ul><li><div class="code-wrapper"><pre><code class="shell">$  rosrun learning_topic velocity_publisher</code></pre></div></li><li><p>执行刚才编译好的功能包，实现发布功能</p></li></ul></li></ul><p>注意：如果在终端三指令无法被shell识别，请再仔细检查一下是否设置好了环境变量。有可能你只在终端一中声明了变量，但是终端三中无法识别其他终端中已经声明的变量</p><p>这个实例实际上是我们编写的节点 velocity_publisher 向turtlesim节点发布了消息，实现了话题通讯中的发送环节</p><p>总结一下如何实现一个发布者：</p><ul><li>初始化ROS节点</li><li>向ROS MASTER注册节点信息，包括发布的话题名和话题中的消息类型</li><li>创建消息数据</li><li>按照一定的频率循环发送消息</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ROS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>工作空间和功能包</title>
+    <link href="/2022/05/04/%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4%E5%92%8C%E5%8A%9F%E8%83%BD%E5%8C%85/"/>
+    <url>/2022/05/04/%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4%E5%92%8C%E5%8A%9F%E8%83%BD%E5%8C%85/</url>
+    
+    <content type="html"><![CDATA[<h2 id="工作空间"><a href="#工作空间" class="headerlink" title="工作空间"></a>工作空间</h2><ul><li><p>工作空间(workspace)是一个存放工程开发相关文件的文件夹</p><ul><li>src：代码空间（source space），放置功能包</li><li>build：编译空间（build space），放置编译产生的中间二进制文件（我们基本不用关心）</li><li>devel：开发空间（development space），放置编译生成的一些可执行文件、库、脚本等</li><li>install：安装空间（install space），放置最终程序</li></ul></li><li><p>以上为catkin编译系统下的工作空间结构，这里的工作空间可以类比visual studio的项目文件夹</p></li><li><p>开发空间和安装空间在内容上具有一定的重复性，所以在ROS2中进行了改进，只保留了install空间</p></li></ul><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w559vk1fj20p80qc77b.jpg" alt="image-20220320145641873" style="zoom:67%;" /><h2 id="创建工作空间"><a href="#创建工作空间" class="headerlink" title="创建工作空间"></a>创建工作空间</h2><ol><li><p>新建一个文件夹作为项目文件夹（以下取名为catkin_ws，这个取名是随意的，就是一个工程的名字，但下面的src文件名称不能更改)</p><ul><li>在同一个项目里不能出现两个同名功能包，在不同的项目里可以出现两个同名功能包</li></ul></li><li><p>在catkin_ws目录下创建一个空的文件夹，取名为src</p><ul><li>这个src文件夹后续会存放功能包文件</li></ul></li><li><p>工作空间初始化</p><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> /home/catkin_ws/src    <span class="hljs-comment">#执行指令前要先将工作目录转到src文件下，然后再进行工作空间初始化</span></span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"> catkin_init_workspace     <span class="hljs-comment">#此处的catkin_ws文件夹是创建在主目录下的，如果你创建文件夹的位置不在主目录下，需要调整路径</span></span><br></code></pre></td></tr></table></figure></li></ol><p>​4.设定环境变量</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> ..    <span class="hljs-comment">#回到catkin_ws目录下</span></span><br><span class="hljs-meta prompt_">$</span><span class="language-bash"> <span class="hljs-built_in">source</span> devel/setup.bash   <span class="hljs-comment">#设置环境变量</span></span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$ROS_PACKAGE_PATH</span>    <span class="hljs-comment">#检查环境变量</span></span><br></code></pre></td></tr></table></figure><p>环境变量的意义在于可以让系统查找到我们这个工作空间，找到我们编译好想要执行的程序</p><p>5.编译工作空间</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> catkin_make   <span class="hljs-comment">#此时的工作目录是catkin_ws,执行完这条指令后会编译src文件下的功能包</span></span><br></code></pre></td></tr></table></figure><p>但执行完这条指令后没有产生install空间，为了产生install空间，还需要执行下面的代码</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> catkin_make install</span><br></code></pre></td></tr></table></figure><p>至此我们就已经完成了一个空的工程的编译，接下来我们将学习如何创建功能包</p><h2 id="创建功能包"><a href="#创建功能包" class="headerlink" title="创建功能包"></a>创建功能包</h2><p>首先我们要切换到src文件目录下</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> src</span><br></code></pre></td></tr></table></figure><p>接下来执行创建功能包指令</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> catkin_create_pkg test_pkg std_msgs roscpp rospy</span><br></code></pre></td></tr></table></figure><p>第一个词是创建功能包指令，第二个词是功能包名称，后面的三个词是编译该功能包时需要依赖的其他三个功能包</p><h2 id="功能包文件解读"><a href="#功能包文件解读" class="headerlink" title="功能包文件解读"></a>功能包文件解读</h2><ul><li>Package.xml:功能包干啥用的？作者信息？开源许可证？功能包依赖信息？</li><li>CMakeLists.txt:描述功能包编译规则</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ROS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>关于二重积分计算的若干思考</title>
+    <link href="/2022/05/04/%E5%85%B3%E4%BA%8E%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86%E8%AE%A1%E7%AE%97%E7%9A%84%E8%8B%A5%E5%B9%B2%E6%80%9D%E8%80%83/"/>
+    <url>/2022/05/04/%E5%85%B3%E4%BA%8E%E4%BA%8C%E9%87%8D%E7%A7%AF%E5%88%86%E8%AE%A1%E7%AE%97%E7%9A%84%E8%8B%A5%E5%B9%B2%E6%80%9D%E8%80%83/</url>
+    
+    <content type="html"><![CDATA[<h2 id="要点概述"><a href="#要点概述" class="headerlink" title="要点概述"></a>要点概述</h2><p>对于一个标准的求二重积分问题，主要关注以下三点</p><p>（1）选取直角坐标系还是极坐标系</p><p>（2）积分区间的拆解</p><p>（3）被积函数的拆解</p><h2 id="核心技巧【重要切入点】"><a href="#核心技巧【重要切入点】" class="headerlink" title="核心技巧【重要切入点】"></a>核心技巧【重要切入点】</h2><h3 id="区间对称性"><a href="#区间对称性" class="headerlink" title="区间对称性"></a>区间对称性</h3><ul><li><p>奇偶对称性——前提条件：积分区间关于x轴或y轴对称</p></li><li><p>轮换对称性（非常重要！！！）—–前提条件：积分区间关于y&#x3D;x对称</p></li></ul><h3 id="区间形状"><a href="#区间形状" class="headerlink" title="区间形状"></a>区间形状</h3><p>一般对于一些圆形、椭圆形区域，可以考虑将直角坐标系转化为极坐标系进行积分</p><h3 id="积分次序"><a href="#积分次序" class="headerlink" title="积分次序"></a>积分次序</h3><p>当发现积分比较难求时，尝试对积分次序进行变换：尤其是当原函数没有初等函数表达形式时只能交换积分次序来做</p><h2 id="例题-1-—-区间对称性和区间形状"><a href="#例题-1-—-区间对称性和区间形状" class="headerlink" title="例题(1)—-区间对称性和区间形状"></a>例题(1)—-区间对称性和区间形状</h2><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w3wpojkyj21js0okjuv.jpg" alt="image-20220413201748189"></p><p>总结:</p><p>答案给出了两种解法。第一种解法积分区间形状出发，方法比较容易想，但是在后续的积分计算中相对比较繁琐；而第二种解法从积分区间对称性出发，利用积分区间关于y&#x3D;x对称，列出如上等式，利用交换x、y前后两个积分式的值相等，构建出了更易求解的形式</p><p>通过本题，还可以复习如下知识点</p><ul><li>wallis（华里士）公式</li></ul><p>$$<br>\int_{0}^{\frac{\pi}{2} }sin^mx dx&#x3D;\int_{0}^{\frac{\pi}{2} }cos^mxdx \<br>$$</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w3wqrvbkj20lq06swes.jpg" alt="image-20220413203154083"></p><p>注意偶数多✖️$\frac{\pi} {2}$</p><h2 id="例题-2-—调整积分次序"><a href="#例题-2-—调整积分次序" class="headerlink" title="例题(2)—调整积分次序"></a>例题(2)—调整积分次序</h2><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w3wrc9t2j21k60o241c.jpg" alt="image-20220413212741782"></p><h2 id="其他一些比较巧妙的题目"><a href="#其他一些比较巧妙的题目" class="headerlink" title="其他一些比较巧妙的题目"></a>其他一些比较巧妙的题目</h2><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w3wpukusj21f20psabp.jpg" alt="image-20220413211631734"></p><p>这个题目非常经典，建议直接记住做题方法。这就是典型的原函数不能用初等函数表达的积分问题，可以用二重积分巧妙解决，同时这个积分在概率论中有重要意义（正态分布概率密度函数积分求解概率）</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w3wqazu1j21as0le0v5.jpg" alt="image-20220413212410947"></p><p>这个题首先将一重积分转换为二重积分，然后从二重积分的区间对称性出发，进行了不等式的构造，通过构造不等式证明完毕。</p><ul><li>同时在这里也对二重积分中应用轮换对称性的题做一点小小的总结：</li></ul><p>对轮换前和轮换后的式子加一加，减一减，尽量把式子构造地“齐次一些”，如上题让x，y的格式对称才能方便后续不等式的放缩</p><h2 id="写在最后的对二重积分的一点总结"><a href="#写在最后的对二重积分的一点总结" class="headerlink" title="写在最后的对二重积分的一点总结:"></a>写在最后的对二重积分的一点总结:</h2><ul><li>在掌握二重积分技巧的同时，建议回顾一下其中包含的一元积分技巧，以提高计算速度，尤其是关于三角函数的定积分计算（wallis公式）—-应用很频繁</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>calculus</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>macos效率配置</title>
+    <link href="/2022/05/04/macos%E6%95%88%E7%8E%87%E9%85%8D%E7%BD%AE/"/>
+    <url>/2022/05/04/macos%E6%95%88%E7%8E%87%E9%85%8D%E7%BD%AE/</url>
+    
+    <content type="html"><![CDATA[<h2 id="I-屏幕窗口管理"><a href="#I-屏幕窗口管理" class="headerlink" title="I.屏幕窗口管理"></a>I.屏幕窗口管理</h2><h3 id="实现软件"><a href="#实现软件" class="headerlink" title="实现软件"></a>实现软件</h3><p>Rectangle.app（免费）</p><h3 id="需求出发点"><a href="#需求出发点" class="headerlink" title="需求出发点"></a>需求出发点</h3><p>比起windows，macos自带组件好像没有太好的窗口管理功能，在论坛里我了解到了rectangle这款应用，用它来实现窗口管理</p><h3 id="快捷键配置"><a href="#快捷键配置" class="headerlink" title="快捷键配置"></a>快捷键配置</h3><table><thead><tr><th>快捷键</th><th>功能</th></tr></thead><tbody><tr><td>⌃ +⌥ +左方向键</td><td>窗口调至左半屏</td></tr><tr><td>⌃ +⌥ +右方向键</td><td>窗口调至右半屏</td></tr><tr><td>⌃ +⌥ +上方向键</td><td>窗口调至上半屏</td></tr><tr><td>⌃ +⌥ +下方向键</td><td>窗口调至下半屏</td></tr><tr><td>⌃ +⌥ +U</td><td>窗口调至左上1&#x2F;4屏</td></tr><tr><td>⌃ +⌥ +I</td><td>窗口调至右上1&#x2F;4屏</td></tr><tr><td>⌃ +⌥ +J</td><td>窗口调至左下1&#x2F;4屏</td></tr><tr><td>⌃ +⌥ +K</td><td>窗口调至右下1&#x2F;4屏</td></tr><tr><td>⌃ +⌥ +回车键</td><td>窗口页面最大化</td></tr></tbody></table><h2 id="II-浏览器内多个页面通过触控板进行切换"><a href="#II-浏览器内多个页面通过触控板进行切换" class="headerlink" title="II.浏览器内多个页面通过触控板进行切换"></a>II.浏览器内多个页面通过触控板进行切换</h2><h3 id="实现软件-1"><a href="#实现软件-1" class="headerlink" title="实现软件"></a>实现软件</h3><p>Better touch tool（收费，但是可以在<a href="https://www.macwk.com/">MacWk - 精品mac软件下载</a>上找到破解版，目前体验良好）</p><h3 id="需求出发点-1"><a href="#需求出发点-1" class="headerlink" title="需求出发点"></a>需求出发点</h3><p>考虑到macos自带手势中可以用四指滑动切换应用，二指滑动可以用来切换同一个浏览页面的内容，我们缺少在一个浏览器下不同标签页之间进行翻页的手势。所以借助软件better touch tool，我希望来实现自定义，用三指向左轻扫实现向左翻页，用三指向右轻扫实现向右翻页。</p><h3 id="软件配置"><a href="#软件配置" class="headerlink" title="软件配置"></a>软件配置</h3><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1w3usdqkcj21cv0u0428.jpg" alt="image-20220322144015484"></p><p>大致思想就是在触控板设置里将触发器设置为三指向左（向右)轻扫，实现的操作我们绑定好软件内部的快捷键即可。（需要我们提前了解在软件内部实现翻页需要用到什么快捷键）</p><p>（至于软件的具体操作不做描述，bilibili上有大量的软件使用教程和经验分享）</p><h2 id="III-软件内部显示快捷键"><a href="#III-软件内部显示快捷键" class="headerlink" title="III. 软件内部显示快捷键"></a>III. 软件内部显示快捷键</h2><h3 id="实现软件-2"><a href="#实现软件-2" class="headerlink" title="实现软件"></a>实现软件</h3><p>CheatSheet.app（免费）</p><h3 id="需求出发点-2"><a href="#需求出发点-2" class="headerlink" title="需求出发点"></a>需求出发点</h3><p>对于经常使用的软件，我们最好充分了解它的快捷键位，这样可以大大提高工作效率</p><h3 id="软件使用"><a href="#软件使用" class="headerlink" title="软件使用"></a>软件使用</h3><p>在你正在使用的app界面下，按住 ⌘（cmd）键等待一会儿，便会出现一张表格，表格上呈现了该软件全部的快捷键位</p><h2 id="IV-特殊符号"><a href="#IV-特殊符号" class="headerlink" title="IV. 特殊符号"></a>IV. 特殊符号</h2><h3 id="实现软件-3"><a href="#实现软件-3" class="headerlink" title="实现软件"></a>实现软件</h3><p>搜狗输入法</p><h3 id="一些实例"><a href="#一些实例" class="headerlink" title="一些实例"></a>一些实例</h3><h4 id="罗马数字"><a href="#罗马数字" class="headerlink" title="罗马数字"></a>罗马数字</h4><p>先打一个v，然后接你想打的数字</p><h2 id="V-用Alfred代替你的访达"><a href="#V-用Alfred代替你的访达" class="headerlink" title="V. 用Alfred代替你的访达"></a>V. 用Alfred代替你的访达</h2><p>一个超级好用的增强访达！</p><h2 id="VI-新时代终端——warp"><a href="#VI-新时代终端——warp" class="headerlink" title="VI. 新时代终端——warp"></a>VI. 新时代终端——warp</h2><p>界面UI美观，使用人性化</p><h2 id="VII-代码编辑器——vscode"><a href="#VII-代码编辑器——vscode" class="headerlink" title="VII. 代码编辑器——vscode"></a>VII. 代码编辑器——vscode</h2>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>macOS configuration</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>代价函数</title>
+    <link href="/2022/05/03/%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0/"/>
+    <url>/2022/05/03/%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<p>现在我们假设已知训练集，并且我们的假设函数设定为一次线性函数</p><p>训练集：</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vndvsqtkj20un09hwf5.jpg" alt="IMG_5003CA81BF69-1" style="zoom:50%;" /><p>假设函数：<br>$$<br>h(x)&#x3D;\theta_0+\theta_1x<br>$$<br>接下来我们的任务便是找到一组$\theta_0$和$\theta_1$,那么确定参数的原则是什么呢？</p><p>此处用到了计算方法拟合算法中的最小二乘法思想，将参数的确定转化为一个最小化问题<br>$$<br>minimize       \sum_{i&#x3D;1}^m(h_{\theta}(x^{(i)})-y^{(i)})^2<br>$$<br>​你可以把这个优化变量看作是一个关于$\theta_0$和$\theta_1$的二元函数，找到那个最小值点对应的坐标对即为这两个参数的值</p><p>从这个优化变量出发，定义我们的代价函数（cost function)，找到我们新的优化变量J($\theta$)<br>$$<br>J(\theta_0,\theta_{1})&#x3D;\frac{1}{2m}(h_{\theta}(x^{(i)})-y^{(i)})^2<br>$$<br>思考：这里除以m可以理解，参见如下图片（图片链接：<a href="http://stats.stackexchange.com/questions/206274/relationship-between-rmse-and-rss">StackExchange</a>），应该是RSS到MSE，但是多除以2是为什么呢？</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vndv322lj21540q8wj4.jpg" alt="img" style="zoom: 50%;" />]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>machine_learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>模型概述</title>
+    <link href="/2022/05/03/%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/"/>
+    <url>/2022/05/03/%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/</url>
+    
+    <content type="html"><![CDATA[<p>以之前的房价预测问题为例，画出模型的流程图</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vndch6adj20ni0g4my2.jpg" alt="image-20220316085750716" style="zoom:33%;" /><ul><li>Size of house对应的就是我们的预测输入变量，Estimated price对应的就是预测输出变量，此处的h英文全称为hypothesis（假设函数），它提供了输入变量到输出变量的映射关系。</li><li>此处的Training Set对应的就是提前给定我们的几组已知的房子大小和对应房价数值对</li></ul><p>引入几组记号</p><table><thead><tr><th>记号</th><th align="center">含义</th></tr></thead><tbody><tr><td>m</td><td align="center">训练集样本的个数</td></tr><tr><td>$x^{(i)}$</td><td align="center">训练集第i个样本的输入值</td></tr><tr><td>$y^{(i)}$</td><td align="center">训练集第i个样本的输出值</td></tr><tr><td>$h(x)$ or $h_{\theta}(x)$</td><td align="center">假设函数（即输入变量到输出变量的映射函数）</td></tr></tbody></table><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vndac9mwj20un09hwf5.jpg" alt="IMG_5003CA81BF69-1" style="zoom:50%;" /><p>对于这个训练集，假如一直写下去有47行数据，那么训练集就有47个样本，即m&#x3D;47</p><p>$x^{(1)}$&#x3D;?  &#x3D;&gt;他代表的是第一个样本的输入变量，即第一行数据的第一个，即2104</p><p>习惯上，我们通常称输入变量为样本的一个特征（feature）</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>machine_learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>机器学习概述</title>
+    <link href="/2022/05/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0/"/>
+    <url>/2022/05/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="欢迎来到《机器学习》课程"><a href="#欢迎来到《机器学习》课程" class="headerlink" title="欢迎来到《机器学习》课程"></a>欢迎来到《机器学习》课程</h2><ul><li>如今这个时代，大数据技术为机器学习提供了大量的训练数据基础</li></ul><h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习"></a>什么是机器学习</h2><p>首先先给出一个比较陈旧的定义</p><p>Arthur Samul(1959): Field of  study that gives computers the abilitiy to learn without being explicitly programmed.</p><p>Samul在19世纪50年代编写了一个跳棋游戏程序。这个程序最令人惊讶的地方在于，尽管Samul并不是一个玩跳棋的高手，但是他让程序和自己对弈几万次，观察哪些布局容易赢，哪些布局容易输。一段时间后，程序自己就学会了什么是好的布局，什么是不好的布局，并且比Samuel玩的更好。</p><p>紧接着给出一个比较新的定义</p><p>Tom Mitchell(1998):A computer program is said to learn from experience E with respect to some task T and some performance measure P,if its performance on T,as measured by P,improves with experience E.</p><p>目前有很多种类的机器学习算法，其中最主要的两类是&#x3D;&#x3D;监督学习&#x3D;&#x3D;（supervised learning)和&#x3D;&#x3D;无监督学习&#x3D;&#x3D;(unsupervised learning),此外你还会听到其他的热词，比如&#x3D;&#x3D;强化学习&#x3D;&#x3D;(Reinforcement learning),推荐系统(recommender system)</p><h3 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h3><p>首先引入一个房价预测的实例</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnakxbtbj20t60fcdgk.jpg" alt="image-20220315150259907" style="zoom:50%;" /><p>如图给定了几组房子尺寸和房价的对应关系（用红叉标记出样本点）</p><p>生活中常见的一个问题是给定房子尺寸去预测房价，而监督学习算法就可以完成这项任务。具体而言，监督学习算法可以根据样本点拟合一条直线，或者拟合一条二次曲线，这样我们就得到了一个连续区间内房价和房子大小的一一对应关系。这是一类监督学习问题，一般我们称之为回归问题（regression problem）</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnajus83j218y0n8gor.jpg" alt="image-20220315150754794" style="zoom: 33%;" /><hr><p>下面给出监督学习的定义:</p><p>​监督学习就是我们给算法一个数据集，其中&#x3D;&#x3D;包含了正确答案&#x3D;&#x3D;，而我们的目的就是得到更多正确的答案。对于我们这个房价预测问题而言，我们给定的数据集就是房子大小以及对应的房价，而我们的目的就是给定一个房子的大小时，算法可以输出一个正确的房价预测值，即更多正确的答案。</p><hr><p>下面我们再给出一个监督学习的实例：</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnaldfbmj20s20do3z7.jpg" alt="image-20220315151807483" style="zoom:50%;" /><p>推断是否为乳腺癌可以通过观察肿瘤的大小做出一定的判断，在上图中我们给出了几组真实的诊断数据（malignant是恶性肿瘤，即患乳腺癌；benign是良性，即未患乳腺癌）。如果有一个人想根据自己的肿瘤大小来判断自己是否患有乳腺癌，也可以利用监督学习的算法，但是此时我们监督学习算法所做的不是拟合一条曲线，而是画出一个界限来划分不同的类别。这类问题我们称之为分类问题（classification problem）</p><p>假定我们又知道了病人的年龄数据，可以作如下的图</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnahvs9pj20vs0pydi7.jpg" alt="image-20220315152946277" style="zoom:33%;" /><p>通过做出这个分界面我们得到了分类问题的答案</p><hr><p>总结一下：</p><ul><li>监督学习问题可以细分为&#x3D;&#x3D;回归问题&#x3D;&#x3D;(regression problem)和&#x3D;&#x3D;分类问题&#x3D;&#x3D;(classification problem),其中回归问题和分类问题的本质区别是回归问题是预测一个连续值输出，而分类问题是预测一个离散值输出（同时注意，不一定输出结果只有0和1，可以有多个离散结果）</li></ul><h3 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h3><p>同样地，我们还是从实例引入</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnaih9b1j20vk0u0dgw.jpg" alt="image-20220315153846542" style="zoom:25%;" /><p>观察这个图形，发现和之前监督学习的最大不同在于它的样本数据具有相同的标签或者说没有标签（label）【刚才的肿瘤预测问题中，我们的图形中用蓝色圆圈和红色叉号来区分良性肿瘤和恶性肿瘤，这就是不同的标签label】。</p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnakdqd0j20mg0miabc.jpg" alt="image-20220315154301692" style="zoom: 33%;" /><p>无监督学习算法可以将这些数据分成不同的簇，这被称为聚类算法（clustering algorithm）</p><hr><p>聚类算法的实际应用</p><ul><li><p>谷歌新闻</p><p>谷歌新闻每天在网络上收集几万甚至几十万条的新闻，然后将他们组成一个个的新闻专题，本质上就是应用了聚类算法</p></li><li><p>DNA序列分类</p><p>根据不同个体的DNA信息进行聚类，划分出不同类型的人</p></li><li><p>大型计算机集群的组织</p><p>大型计算机集群通过聚类算法判断哪些计算机趋向于协同工作，从而使系统性能更加高效</p></li><li><p>社交软件</p><p>通过聚类算法识别出性格相近的人（好友推荐系统）</p></li><li><p>商业领域</p><p>将庞大的客户信息数据库导入聚类算法，找出一个合适的市场分割，从而在不同的细分市场进行销售，实现收益最大化</p></li><li><p>天文</p><p>将天体位置数据导入聚类算法，从而研究星系的形成理论</p></li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>machine_learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>树莓派问题记录</title>
+    <link href="/2022/05/03/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    <url>/2022/05/03/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    
+    <content type="html"><![CDATA[<h2 id="树莓派连接网络问题"><a href="#树莓派连接网络问题" class="headerlink" title="树莓派连接网络问题"></a>树莓派连接网络问题</h2><h3 id="技术博客"><a href="#技术博客" class="headerlink" title="技术博客"></a>技术博客</h3><ul><li><a href="https://blog.csdn.net/lishan132/article/details/106822483">(41条消息) ubuntu插入有线网络后有ip地址，但无法上网_乐观的lishan的博客-CSDN博客_ubuntu有ip地址没办法联网</a></li></ul><h2 id="MACOS-amp-Ubuntu-SSH通讯"><a href="#MACOS-amp-Ubuntu-SSH通讯" class="headerlink" title="MACOS &amp; Ubuntu SSH通讯"></a>MACOS &amp; Ubuntu SSH通讯</h2><h3 id="技术博客-1"><a href="#技术博客-1" class="headerlink" title="技术博客"></a>技术博客</h3><ul><li><p>[如何在 Ubuntu 20.04 启用 SSH - 云+社区 - 腾讯云 (tencent.com)](<a href="https://cloud.tencent.com/developer/article/1638882#:~:text=%E7%8E%B0%E5%9C%A8%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%BB%8E%E4%BB%BB%E4%BD%95%E8%BF%9C%E7%A8%8B%E6%9C%BA%E5%99%A8%E4%B8%8A%E9%80%9A%E8%BF%87">https://cloud.tencent.com/developer/article/1638882#:~:text=现在你可以从任何远程机器上通过</a> SSH 连接到你的 Ubuntu 系统。 Linux 和 macOS,客户端。 想要从一个 Window 机器上连接，使用一个 SSH 客户端，例如%3A PUTTY 。)</p></li><li><p><a href="https://blog.csdn.net/u013828589/article/details/73605594?spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-5.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-5.pc_relevant_default&utm_relevant_index=10">(41条消息) MAC 通过SSH传送文件到Ubuntu虚拟机_Awiny_ImageProcess的博客-CSDN博客_mac ssh 上传文件</a></p></li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>raspberry pi</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>ROS核心概念</title>
+    <link href="/2022/05/03/ROS%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/"/>
+    <url>/2022/05/03/ROS%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/</url>
+    
+    <content type="html"><![CDATA[<h2 id="节点（Node）——执行单元"><a href="#节点（Node）——执行单元" class="headerlink" title="节点（Node）——执行单元"></a>节点（Node）——执行单元</h2><ul><li>执行具体任务的进程、独立运行的可执行文件</li><li>不同的节点可以使用不同的编程语言，可分布式运行在不同的主机</li><li>节点在系统中的名称必须是唯一的</li></ul><h2 id="节点管理器（ROS-Master）——控制中心"><a href="#节点管理器（ROS-Master）——控制中心" class="headerlink" title="节点管理器（ROS Master）——控制中心"></a>节点管理器（ROS Master）——控制中心</h2><ul><li>为节点提供命名和注册服务</li><li>跟踪和记录话题、服务通信，辅助节点相互查找、建立连接</li><li>提供参数服务器，节点使用此服务器存储和检索运行时的参数</li></ul><h2 id="话题通信"><a href="#话题通信" class="headerlink" title="话题通信"></a>话题通信</h2><ul><li>话题（Topic）——异步通信机制<ul><li>节点之间传输数据的重要总线</li><li>使用发布&#x2F;订阅模型，数据由发布者（publisher）传输到订阅者（subscriber），同一个话题的订阅者或发布者可以不唯一（发布-订阅）</li></ul></li><li>消息（message）——话题数据<ul><li>具有一定的类型和数据结构，包括ROS提供的标准类型和用户自定义类型</li><li>使用编程语言无关的.msg文件定义，编译过程中生成对应的代码文件</li></ul></li></ul><h2 id="服务（service）通信"><a href="#服务（service）通信" class="headerlink" title="服务（service）通信"></a>服务（service）通信</h2><ul><li>服务——同步通信机制<ul><li>使用客户端&#x2F;服务器（C&#x2F;S）模型，客户端发送请求数据，服务器完成处理后返回应答数据(请求—应答)</li><li>使用编程语言无关的.srv文件定义请求和应答数据结构，编程过程中生成对应的代码文件</li><li>一般都是请求一次，应答一次</li></ul></li></ul><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnfahghoj21ak0oswhr.jpg" alt="image-20220319130049838"></p><h2 id="参数（Parameter）——全局共享字典"><a href="#参数（Parameter）——全局共享字典" class="headerlink" title="参数（Parameter）——全局共享字典"></a>参数（Parameter）——全局共享字典</h2><ul><li>可通过网络访问的共享、多变量字典</li><li>节点使用此服务器来存储和检索运行时的参数</li><li>适合存储&#x3D;&#x3D;静态&#x3D;&#x3D;、非二进制的配置参数，&#x3D;&#x3D;不适合存储动态配置&#x3D;&#x3D;的数据</li></ul><h2 id="2-6-文件系统"><a href="#2-6-文件系统" class="headerlink" title="2.6 文件系统"></a>2.6 文件系统</h2><ul><li><p>功能包（package）</p><p>ROS软件的基本单元，包含节点源码、配置文件、数据定义等</p></li><li><p>功能包清单（manifest）</p><p>记录功能包的基本信息，包含作者信息、许可信息、依赖选项、编译标志等</p></li><li><p>元功能包（meta package）</p><p>组织多个用于同一目的的功能包</p></li></ul><pre><code class=" mermaid">graph TDA(文件系统)--&gt;B(元功能包)B(元功能包)--&gt;C(功能包)C(功能包)--&gt;D1(功能包清单)C(功能包)--&gt;D2(消息类型)C(功能包)--&gt;D3(服务类型)C(功能包)--&gt;D4(代码)C(功能包)--&gt;D5(其他)</code></pre><hr>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ROS</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Unix基本指令</title>
+    <link href="/2022/05/03/Unix%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/"/>
+    <url>/2022/05/03/Unix%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-ls"><a href="#1-ls" class="headerlink" title="1.ls"></a>1.ls</h2><p>当你第一次登录时，你的当前工作目录是你的主目录。你的主目录的名称与你的用户名相同。</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhudcxlqj20j6088t8u.jpg" alt="image-20220319102544785"></p><p>（这里我本人使用的是macos系统，可能与linux系统等类UNIX系统名称略有差异）。</p><p>要想知道你的主目录里有什么，请输入</p><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">ls</span></span><br></code></pre></td></tr></table></figure><p>ls命令列出了你当前工作目录的内容。</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhuci1qij21xa06u76b.jpg" alt="image-20220319103034059"></p><p>事实上，ls不会使你的主目录中的所有文件都被列出，而只是那些名字不以点（.）开头的文件。以点（.）开头的文件被称为隐藏文件，通常包含重要的程序配置信息。它们是隐藏的，因为你不应该改变它们，除非你对UNIX非常熟悉！！。</p><p>要列出你的主目录中的所有文件，包括那些名字以点开头的文件，键入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">ls</span> -a</span><br></code></pre></td></tr></table></figure><p>此处加上了(-a)的指令参数，为方便记忆，a可以联系all（全部文件）</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhubr4nhj21m30u07am.jpg" alt="image-20220319103550188"></p><p>与之前的图进行对比，不难发现，加上（-a）参数后出现了很多以点（.)开头的隐藏文件</p><p>ls是一个可以接受选项的命令的例子。-a是一个选项的例子。这些选项改变命令的行为。网上有一些手册，告诉你一个特定的命令可以接受哪些选项，以及每个选项是如何改变命令的行为的。</p><hr><h2 id="2-mkdir"><a href="#2-mkdir" class="headerlink" title="2.mkdir"></a>2.mkdir</h2><p>即“make directory”——创建一个目录（文件夹）</p><p>上文已经提到，我们的当前工作目录是主目录，即和我的用户名相同的目录，现在，我想在这个目录下创建一个文件夹（名称为unix_learning)，输入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">mkdir</span> unix_learning</span><br></code></pre></td></tr></table></figure><p>这样就可以在目录下发现新的文件夹unix_learning</p><p>为了进行验证，有如下两种方法可以采用：</p><ul><li><p>再使用之前的ls指令查看到你创建的新文件夹</p></li><li><p>到图形界面下的文件夹中去寻找那个新创建的文件夹</p></li></ul><hr><h2 id="3-cd"><a href="#3-cd" class="headerlink" title="3.cd"></a>3.cd</h2><p>cd directory命令的意思是将当前工作目录改为 “directory”。当前工作目录可以被认为是你所在的目录，即你在文件系统树中的当前位置。</p><p>要改变到你刚刚制作的目录，键入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> unix_learning</span><br></code></pre></td></tr></table></figure><p>输入ls指令，如果你操作无误的话，你会发现文件夹是空的(但是加入-a参数后可能会有一些隐藏文件，这个是系统自动生成的，我们可以不予理会)</p><hr><h2 id="4-目录-和"><a href="#4-目录-和" class="headerlink" title="4.目录 . 和 .."></a>4.目录 . 和 ..</h2><h3 id="4-1当前工作目录"><a href="#4-1当前工作目录" class="headerlink" title="4.1当前工作目录(.)"></a>4.1当前工作目录(.)</h3><p>键入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> .</span><br></code></pre></td></tr></table></figure><p>执行完这条指令后，你会发现你仍然停留在之前的工作目录</p><p>&#x3D;&#x3D;注意：如果你的代码出现异常，请检查cd和点之间是否有空格，他们不能连在一起！&#x3D;&#x3D;</p><h3 id="4-2-父目录"><a href="#4-2-父目录" class="headerlink" title="4.2 父目录(..)"></a>4.2 父目录(..)</h3><p>键入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cd</span> ..</span><br></code></pre></td></tr></table></figure><p>执行完这条指令后，你会发现你的工作目录来到了上一级（即向文件树顶端root方向前进了一级），我们也称来到了父目录</p><p>&#x3D;&#x3D;注意： 依然要检查空格问题！&#x3D;&#x3D;</p><hr><h2 id="5-文件路径以及pwd指令"><a href="#5-文件路径以及pwd指令" class="headerlink" title="5.文件路径以及pwd指令"></a>5.文件路径以及pwd指令</h2><h3 id="5-1-绝对路径"><a href="#5-1-绝对路径" class="headerlink" title="5.1 绝对路径"></a>5.1 绝对路径</h3><p>绝对路径一定是由根目录 &#x2F; 开始写起。例如 &#x2F;usr&#x2F;local&#x2F;mysql</p><h3 id="5-2-相对路径"><a href="#5-2-相对路径" class="headerlink" title="5.2 相对路径"></a>5.2 相对路径</h3><p>路径的写法不是由根目录 &#x2F; 写起的，例如 首先用户进入到 &#x2F;home，然后再进入到test，执行的命令为 “#cd &#x2F;home,#cd test”。此时用户所在的路径为 &#x2F;home&#x2F;test。第一个cd命令后紧跟&#x2F;home，前面有斜杠；而第二个cd命令后紧跟test，前面没有斜杠。这个test是相对于&#x2F;home目录来讲的，所以称为相对路径。<br>[原文链接][<a href="https://blog.csdn.net/daocaokafei/article/details/116851192]">https://blog.csdn.net/daocaokafei/article/details/116851192]</a></p><h3 id="5-3-pwd指令"><a href="#5-3-pwd指令" class="headerlink" title="5.3 pwd指令"></a>5.3 pwd指令</h3><p>在shell中输入如下指令</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">pwd</span></span><br></code></pre></td></tr></table></figure><p>便可以查看当前的绝对路径</p><hr><h2 id="6-文件复制与cp指令"><a href="#6-文件复制与cp指令" class="headerlink" title="6.文件复制与cp指令"></a>6.文件复制与cp指令</h2><p>cp(英文copy缩写),不加参数的默认状态下可以对文件进行复制操作；在加入参数后可以对文件夹进行复制操作，但需要注意的是，文件夹的权限可能发生改变；本教程仅提供不加入参数的实例</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cp</span> file1 file2</span><br></code></pre></td></tr></table></figure><p>一个简单的实例：</p><ul><li><p>背景：在主目录下有两个文件夹cp_1和cp_2,cp_1下有一个文件名称为phoenix.rtf，现在要将这个名为phoenix的文件夹复制到cp_2下,并且改名为PHOENIX.rtf</p><ul><li><a href="https://baike.baidu.com/item/%E5%AF%8C%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F/1017816">富文本格式_百度百科 (baidu.com)</a></li></ul></li><li><p>代码</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">cp</span> /Users/xiechenfeng/cp_1/phoenix.rtf  /Users/xiechenfeng/cp_2/PHOENIX.rtf</span><br></code></pre></td></tr></table></figure><hr></li></ul><h2 id="7-文件转移与mv指令"><a href="#7-文件转移与mv指令" class="headerlink" title="7.文件转移与mv指令"></a>7.文件转移与mv指令</h2><p>mv(英文move缩写)，不加参数时就可以对文件和文件夹进行转移,但是如果想转移多个文件或文件夹需要加入参数</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">  <span class="hljs-built_in">mv</span> file1 file2</span> <br></code></pre></td></tr></table></figure><p>一个简单的实例：</p><ul><li><p>背景：将刚才的cp_1和cp_2改名为mv_1和mv_2，试将mv_1中的phoenix文件夹和phoenix.rtf文件转移到mv_2中</p></li><li><p>代码</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">mv</span> /Users/xiechenfeng/mv_1/phoenix.rtf  /Users/xiechenfeng/mv_2</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">mv</span> /Users/xiechenfeng/mv_1/phoenix  /Users/xiechenfeng/mv_2</span><br></code></pre></td></tr></table></figure></li></ul><p>另外，利用mv指令还可以实现对一个文件或者文件夹的重命名，只需要将目标路径写作（.&#x2F;修改后的名称)即可（在上文讲过，.代表当前路径）</p><hr><h2 id="8-屏幕显示指令-（clear、cat）"><a href="#8-屏幕显示指令-（clear、cat）" class="headerlink" title="8.屏幕显示指令 （clear、cat）"></a>8.屏幕显示指令 （clear、cat）</h2><h3 id="8-1-clear-clear-screen"><a href="#8-1-clear-clear-screen" class="headerlink" title="8.1 clear(clear screen)"></a>8.1 clear(clear screen)</h3><p>在开始下一节之前，你可能想清除终端窗口中以前的命令，这样就可以清楚地了解下面命令的输出。</p><p>在终端下，输入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> clear</span><br></code></pre></td></tr></table></figure><p>执行完这条指令后，可以实现清屏</p><h3 id="8-2-cat-concatenate"><a href="#8-2-cat-concatenate" class="headerlink" title="8.2 cat(concatenate)"></a>8.2 cat(concatenate)</h3><p>命令用于连接文件并打印到标准输出设备上。</p><p><a href="https://www.cnblogs.com/zhangchenliang/p/7717602.html">Linux cat命令详解 - Danny Chen - 博客园 (cnblogs.com)</a></p><hr><h2 id="10-帮助命令（man-whatis-apropos"><a href="#10-帮助命令（man-whatis-apropos" class="headerlink" title="10. 帮助命令（man,whatis,apropos)"></a>10. 帮助命令（man,whatis,apropos)</h2><h3 id="10-1-在线教程"><a href="#10-1-在线教程" class="headerlink" title="10.1 在线教程"></a>10.1 在线教程</h3><p>有一些在线手册，提供了关于大多数命令的信息。手册页告诉你一个特定的命令可以使用哪些选项，以及每个选项如何修改命令的行为。输入man command可以阅读某个特定命令的手册页。</p><p>例如，要了解更多关于wc（字数统计）命令的信息，请输入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">   man <span class="hljs-built_in">wc</span></span><br></code></pre></td></tr></table></figure><p>还可以用</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">  whatis <span class="hljs-built_in">wc</span></span><br></code></pre></td></tr></table></figure><p>给出了命令的单行描述，但省略了关于选项(options)等的任何信息。</p><h3 id="10-2-不确定名称时寻找教程"><a href="#10-2-不确定名称时寻找教程" class="headerlink" title="10.2 不确定名称时寻找教程"></a>10.2 不确定名称时寻找教程</h3><p>当你不确定帮助的具体名称时，输入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> apropos keyword</span><br></code></pre></td></tr></table></figure><p>会给你提供在其手册页头有关keyword的命令。</p><p>例如，尝试输入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> apropos copy</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Unix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Unix变量</title>
+    <link href="/2022/05/03/Unix%E5%8F%98%E9%87%8F/"/>
+    <url>/2022/05/03/Unix%E5%8F%98%E9%87%8F/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-UNIX变量概述"><a href="#1-UNIX变量概述" class="headerlink" title="1.UNIX变量概述"></a>1.UNIX变量概述</h2><p>变量是一种在你运行程序时将信息从外壳传递给程序的方式。程序在 “环境 “中寻找特定的变量，如果找到了这些变量，就会使用所存储的值。有些是由系统设置的，有些是由你设置的，还有一些是由shell或任何加载其他程序的程序设置的。</p><p>&#x3D;&#x3D;标准UNIX变量被分成两类，环境变量和shell变量。&#x3D;&#x3D;从广义上讲，shell变量只适用于shell的当前实例，用于设置短期工作条件；环境变量具有更深远的意义，那些在登录时设置的变量在会话期间有效。按照惯例，&#x3D;&#x3D;环境变量的名字是大写字母，而shell变量的名字是小写字母。&#x3D;&#x3D;</p><hr><h2 id="2-环境变量"><a href="#2-环境变量" class="headerlink" title="2.环境变量"></a>2.环境变量</h2><p>环境变量的一个例子是OSTYPE变量。它的值是你当前使用的操作系统。键入</p><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$OSTYPE</span></span><br></code></pre></td></tr></table></figure><p>更多环境变量的例子有</p><ul><li>USER (你的登录名)</li><li>HOME (你的主目录的路径名称)</li><li>HOST（你所使用的计算机的名称）</li><li>ARCH (计算机处理器的结构)</li><li>DISPLAY（用于显示X窗口的计算机屏幕的名称）</li><li>PRINTER（发送打印任务的默认打印机）</li><li>PATH (shell应该搜索的目录，以找到一个命令)</li></ul><hr><h2 id="3-shell变量"><a href="#3-shell变量" class="headerlink" title="3.shell变量"></a>3.shell变量</h2><p>shell变量的一个例子是历史变量。它的值保存的shell命令（保存的意义在于允许用户滚动查看他们以前输入的所有命令）。键入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"> <span class="hljs-built_in">echo</span>  <span class="hljs-variable">$history</span></span><br></code></pre></td></tr></table></figure><p>更多关于shell变量的例子有</p><ul><li>cwd (你当前的工作目录)</li><li>home (你的主目录的路径名称)</li><li>path (shell应该搜索的目录以找到一个命令)</li><li>prompt (用于提示交互式命令的文本字符串，shell是你的登录shell)</li></ul><hr><h2 id="4-使用和设定环境变量"><a href="#4-使用和设定环境变量" class="headerlink" title="4.使用和设定环境变量"></a>4.使用和设定环境变量</h2><p>每次你登录到UNIX主机时，系统会在你的主目录中寻找初始化文件。这些文件中的信息被用来设置你的工作环境。C和TC shells使用两个文件，叫做.login和.cshrc（注意这两个文件名都是以点开头的）。</p><p>在登录时，C语言外壳首先读取.cshrc，然后是.login。</p><p>.login是用来设置适用于整个会话的条件，并执行仅在登录时相关的操作。</p><p>.cshrc用来设置条件，并执行shell和它的每个调用的特定动作。</p><p>准则是在.login文件中设置环境变量，在.cshrc文件中设置SHELL变量。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Unix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Unix基本介绍</title>
+    <link href="/2022/05/03/Unix%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/"/>
+    <url>/2022/05/03/Unix%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-Unix是什么？"><a href="#1-Unix是什么？" class="headerlink" title="1.Unix是什么？"></a>1.Unix是什么？</h2><p>UNIX是一种操作系统，最早开发于20世纪60年代，此后一直在不断发展。我们所说的操作系统，是指使计算机工作的程序套件。它是一个稳定、多用户、多任务的系统，适用于服务器、台式机和笔记本电脑。</p><p>UNIX系统也有一个类似于微软Windows的图形用户界面（GUI），提供了一个易于使用的环境。然而，对于图形程序没有涵盖的操作，或者在没有windows界面可用时，例如在telnet会话中，需要UNIX的知识。</p><hr><h2 id="2-Unix的种类有哪些"><a href="#2-Unix的种类有哪些" class="headerlink" title="2.Unix的种类有哪些"></a>2.Unix的种类有哪些</h2><p>UNIX有许多不同的版本，尽管它们有共同的相似之处。最流行的UNIX品种是Sun Solaris、GNU&#x2F;Linux和MacOS X。</p><p>在学校里，我们在服务器和工作站上使用Solaris，在服务器和台式电脑上使用Fedora Linux。</p><hr><h2 id="3-Unix系统的组成"><a href="#3-Unix系统的组成" class="headerlink" title="3.Unix系统的组成"></a>3.Unix系统的组成</h2><p>UNIX操作系统由三部分组成:kernel,shell和程序。</p><h4 id="3-1-kernel"><a href="#3-1-kernel" class="headerlink" title="3.1 kernel"></a>3.1 kernel</h4><p>UNIX的kernel是操作系统的枢纽：它为程序分配时间和内存，处理文件存储和响应系统调用的通信。</p><p>为了说明shell和kernel一起工作的方式，假设一个用户输入了rm myfile（其效果是删除文件myfile）。shell在文件库中搜索包含rm程序的文件，然后通过系统调用请求kernel对myfile执行rm程序。当rm myfile程序运行完毕后，shell向用户返回UNIX提示符%，表示它正在等待进一步的命令。</p><h4 id="3-2-shell"><a href="#3-2-shell" class="headerlink" title="3.2 shell"></a>3.2 shell</h4><p>shell作为用户和内核之间的一个接口。当用户登录时，登录程序检查用户名和密码，然后启动另一个称为shell的程序。shell是一个命令行解释器（CLI–command line interpreter）。它解释用户输入的命令，并安排它们被执行。这些命令本身就是程序：当它们终止时，shell会给用户另一个提示（在我们的系统中为%）。</p><p>熟练的用户可以定制他自己的shell，而且用户可以在同一台机器上使用不同的shell。学校的员工和学生默认使用tcsh shell。</p><p>tcsh shell有一些功能来帮助用户输入命令。</p><p>文件名完成 - 通过输入命令、文件名或目录的部分名称并按下Tab键，tcsh shell会自动完成剩余的名称。如果shell发现不止一个名字以你输入的那些字母开头，它将发出哔哔声，提示你在再次按Tab键之前再输入几个字母。</p><p>历史记录 - shell保留了一个你所输入的命令的列表。如果你需要重复一个命令，可以用光标键在列表中上下滚动，或者输入history来查看以前的命令列表。</p><hr><h2 id="4-文件和进程"><a href="#4-文件和进程" class="headerlink" title="4.文件和进程"></a>4.文件和进程</h2><p>UNIX中的所有东西要么是文件，要么是进程。</p><ul><li><p>进程是一个执行中的程序，由一个唯一的PID（进程标识符）来识别。</p></li><li><p>文件是一个数据的集合。它们是由用户使用文本编辑器、运行编译器等创建的。</p></li></ul><p>文件的例子：</p><ul><li>一份文件（报告、论文等）</li><li>用某种高级编程语言编写的程序文本</li><li>对机器来说可以直接理解的指令，但对普通用户来说是无法理解的，例如，一个二进制数字的集合（一个可执行文件或二进制文件）。</li><li>一个目录，包含有关其内容的信息，可能是其他目录（子目录）和普通文件的混合物。</li></ul><hr><h2 id="5-文件结构"><a href="#5-文件结构" class="headerlink" title="5.文件结构"></a>5.文件结构</h2><p>所有的文件都在目录结构中被分组。文件系统被安排在一个分层结构中，就像一棵倒置的树。层次结构的顶部传统上被称为根（root,写成斜线&#x2F; ）。</p><p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vhmvczkrj20fk08sdg1.jpg" alt="Unix File Structure"></p><p>在上图中，我们看到本科生 “ee51vn “的主目录包含两个子目录（docs和pics）和一个名为report.doc的文件。</p><p>report.doc文件的完整路径是”&#x2F;home&#x2F;its&#x2F;ug1&#x2F;ee51vn&#x2F;report.doc”</p><hr><h2 id="6-浅谈Linux和Unix的关系"><a href="#6-浅谈Linux和Unix的关系" class="headerlink" title="6.浅谈Linux和Unix的关系"></a>6.浅谈Linux和Unix的关系</h2><p>二者的关系，不是大哥和小弟，”UNIX 是 Linux 的父亲”这个说法更怡当。之所以要介绍它们的关系，是因为要告诉读者，在学习的时候，其实 Linux 与 UNIX 有很多的共通之处，简单地说，如果你已经熟练掌握了 Linux，那么再上手使用 UNIX 会非常容易。</p><p>Linux 受至旷大计算机爱好者的喜爱，主要原因也有两个：</p><ol><li>它属于开源软件，用户不用支付可费用就可以获得它和它的源代码，并且可以根据自己的需要对它进行必要的修改，无偿使用，无约束地继续传播；</li><li>它具有 UNIX 的全部功能，任何使用 UNIX 操作系统或想要学习 UNIX 操作系统的人都可以从 Linux 中获益。</li></ol><p>另外，开源其实并不等同于免费，而是一种新的软件盈利模式。目前很多软件都是开源软件，对计算机行业与互联网影响深远。</p><p>总结一下 Linux 和 UNIX 的关系&#x2F;区别：</p><p>Linux 是一个类似 Unix 的操作系统，Unix 要早于 Linux，Linux 的初衷就是要替代 UNIX，并在功能和用户体验上进行优化，所以 Linux 模仿了 UNIX（但并没有抄袭 UNIX 的源码），使得 Linux 在外观和交互上与 UNIX 非常类似。</p><p>相比于 UNIX，Linux 最大的创新是开源免费，这是它能够蓬勃发展的最重要原因；而目前的 UNIX 大部分都是收费的，小公司和个人都难以承受。</p><p>正是由于 Linux 和 UNIX 有着千丝万缕的联系，所以人们把 Linux 叫做类UNIX系统。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Unix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>

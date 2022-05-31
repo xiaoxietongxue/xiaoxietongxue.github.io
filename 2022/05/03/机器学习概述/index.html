@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="phoenix xie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="欢迎来到《机器学习》课程 如今这个时代，大数据技术为机器学习提供了大量的训练数据基础  什么是机器学习首先先给出一个比较陈旧的定义 Arthur Samul(1959): Field of  study that gives computers the abilitiy to learn without being explicitly programmed. Samul在19世纪50年代编写了一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习概述">
+<meta property="og:url" content="http://xiaoxietongxue.github.io/2022/05/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="phoenix的小破站">
+<meta property="og:description" content="欢迎来到《机器学习》课程 如今这个时代，大数据技术为机器学习提供了大量的训练数据基础  什么是机器学习首先先给出一个比较陈旧的定义 Arthur Samul(1959): Field of  study that gives computers the abilitiy to learn without being explicitly programmed. Samul在19世纪50年代编写了一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnakxbtbj20t60fcdgk.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnajus83j218y0n8gor.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnaldfbmj20s20do3z7.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnahvs9pj20vs0pydi7.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnaih9b1j20vk0u0dgw.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnakdqd0j20mg0miabc.jpg">
+<meta property="article:published_time" content="2022-05-03T15:41:52.000Z">
+<meta property="article:modified_time" content="2022-05-04T01:45:12.201Z">
+<meta property="article:author" content="phoenix xie">
+<meta property="article:tag" content="machine_learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnakxbtbj20t60fcdgk.jpg">
+  
+  
+  <title>机器学习概述 - phoenix的小破站</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"xiaoxietongxue.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>phoenix的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="机器学习概述">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-03 23:41" pubdate>
+        2022年5月3日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">机器学习概述</h1>
+            
+            <div class="markdown-body">
+              <h2 id="欢迎来到《机器学习》课程"><a href="#欢迎来到《机器学习》课程" class="headerlink" title="欢迎来到《机器学习》课程"></a>欢迎来到《机器学习》课程</h2><ul>
+<li>如今这个时代，大数据技术为机器学习提供了大量的训练数据基础</li>
+</ul>
+<h2 id="什么是机器学习"><a href="#什么是机器学习" class="headerlink" title="什么是机器学习"></a>什么是机器学习</h2><p>首先先给出一个比较陈旧的定义</p>
+<p>Arthur Samul(1959): Field of  study that gives computers the abilitiy to learn without being explicitly programmed.</p>
+<p>Samul在19世纪50年代编写了一个跳棋游戏程序。这个程序最令人惊讶的地方在于，尽管Samul并不是一个玩跳棋的高手，但是他让程序和自己对弈几万次，观察哪些布局容易赢，哪些布局容易输。一段时间后，程序自己就学会了什么是好的布局，什么是不好的布局，并且比Samuel玩的更好。</p>
+<p>紧接着给出一个比较新的定义</p>
+<p>Tom Mitchell(1998):A computer program is said to learn from experience E with respect to some task T and some performance measure P,if its performance on T,as measured by P,improves with experience E.</p>
+<p>目前有很多种类的机器学习算法，其中最主要的两类是&#x3D;&#x3D;监督学习&#x3D;&#x3D;（supervised learning)和&#x3D;&#x3D;无监督学习&#x3D;&#x3D;(unsupervised learning),此外你还会听到其他的热词，比如&#x3D;&#x3D;强化学习&#x3D;&#x3D;(Reinforcement learning),推荐系统(recommender system)</p>
+<h3 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h3><p>首先引入一个房价预测的实例</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnakxbtbj20t60fcdgk.jpg" srcset="/img/loading.gif" lazyload alt="image-20220315150259907" style="zoom:50%;" />
+
+<p>如图给定了几组房子尺寸和房价的对应关系（用红叉标记出样本点）</p>
+<p>生活中常见的一个问题是给定房子尺寸去预测房价，而监督学习算法就可以完成这项任务。具体而言，监督学习算法可以根据样本点拟合一条直线，或者拟合一条二次曲线，这样我们就得到了一个连续区间内房价和房子大小的一一对应关系。这是一类监督学习问题，一般我们称之为回归问题（regression problem）</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnajus83j218y0n8gor.jpg" srcset="/img/loading.gif" lazyload alt="image-20220315150754794" style="zoom: 33%;" />
+
+<hr>
+<p>下面给出监督学习的定义:</p>
+<p>​	监督学习就是我们给算法一个数据集，其中&#x3D;&#x3D;包含了正确答案&#x3D;&#x3D;，而我们的目的就是得到更多正确的答案。对于我们这个房价预测问题而言，我们给定的数据集就是房子大小以及对应的房价，而我们的目的就是给定一个房子的大小时，算法可以输出一个正确的房价预测值，即更多正确的答案。</p>
+<hr>
+<p>下面我们再给出一个监督学习的实例：</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnaldfbmj20s20do3z7.jpg" srcset="/img/loading.gif" lazyload alt="image-20220315151807483" style="zoom:50%;" />
+
+<p>推断是否为乳腺癌可以通过观察肿瘤的大小做出一定的判断，在上图中我们给出了几组真实的诊断数据（malignant是恶性肿瘤，即患乳腺癌；benign是良性，即未患乳腺癌）。如果有一个人想根据自己的肿瘤大小来判断自己是否患有乳腺癌，也可以利用监督学习的算法，但是此时我们监督学习算法所做的不是拟合一条曲线，而是画出一个界限来划分不同的类别。这类问题我们称之为分类问题（classification problem）</p>
+<p>假定我们又知道了病人的年龄数据，可以作如下的图</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnahvs9pj20vs0pydi7.jpg" srcset="/img/loading.gif" lazyload alt="image-20220315152946277" style="zoom:33%;" />
+
+<p>通过做出这个分界面我们得到了分类问题的答案</p>
+<hr>
+<p>总结一下：</p>
+<ul>
+<li>监督学习问题可以细分为&#x3D;&#x3D;回归问题&#x3D;&#x3D;(regression problem)和&#x3D;&#x3D;分类问题&#x3D;&#x3D;(classification problem),其中回归问题和分类问题的本质区别是回归问题是预测一个连续值输出，而分类问题是预测一个离散值输出（同时注意，不一定输出结果只有0和1，可以有多个离散结果）</li>
+</ul>
+<h3 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h3><p>同样地，我们还是从实例引入</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnaih9b1j20vk0u0dgw.jpg" srcset="/img/loading.gif" lazyload alt="image-20220315153846542" style="zoom:25%;" />
+
+<p>观察这个图形，发现和之前监督学习的最大不同在于它的样本数据具有相同的标签或者说没有标签（label）【刚才的肿瘤预测问题中，我们的图形中用蓝色圆圈和红色叉号来区分良性肿瘤和恶性肿瘤，这就是不同的标签label】。</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1vnakdqd0j20mg0miabc.jpg" srcset="/img/loading.gif" lazyload alt="image-20220315154301692" style="zoom: 33%;" />
+
+<p>无监督学习算法可以将这些数据分成不同的簇，这被称为聚类算法（clustering algorithm）</p>
+<hr>
+<p>聚类算法的实际应用</p>
+<ul>
+<li><p>谷歌新闻</p>
+<p>谷歌新闻每天在网络上收集几万甚至几十万条的新闻，然后将他们组成一个个的新闻专题，本质上就是应用了聚类算法</p>
+</li>
+<li><p>DNA序列分类</p>
+<p>根据不同个体的DNA信息进行聚类，划分出不同类型的人</p>
+</li>
+<li><p>大型计算机集群的组织</p>
+<p>大型计算机集群通过聚类算法判断哪些计算机趋向于协同工作，从而使系统性能更加高效</p>
+</li>
+<li><p>社交软件</p>
+<p>通过聚类算法识别出性格相近的人（好友推荐系统）</p>
+</li>
+<li><p>商业领域</p>
+<p>将庞大的客户信息数据库导入聚类算法，找出一个合适的市场分割，从而在不同的细分市场进行销售，实现收益最大化</p>
+</li>
+<li><p>天文</p>
+<p>将天体位置数据导入聚类算法，从而研究星系的形成理论</p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/machine-learning/">machine_learning</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/03/%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">模型概述</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/03/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+                        <span class="hidden-mobile">树莓派问题记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://xiaoxietongxue.github.io/2022/05/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0/';
+          this.page.identifier = '/2022/05/03/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
