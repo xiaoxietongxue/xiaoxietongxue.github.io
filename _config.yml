@@ -111,7 +111,5 @@ deploy:
     - type: git
       repo: git@github.com:xiaoxietongxue/xiaoxietongxue.github.io.git
       branch: master
-    - type: git
-      repo: git@gitee.com:phoenixgogogo/phoenixgogogo.git
-      branch: master
+
 
