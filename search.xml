@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>CAN总线知识梳理</title>
+    <url>/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/</url>
+    <content><![CDATA[<h2 id="什么是CAN总线？"><a href="#什么是CAN总线？" class="headerlink" title="什么是CAN总线？"></a>什么是CAN总线？</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p><code>CAN</code>(<em>Controller Area Network</em>)是二十世纪八十年代初德国Bosch公司为解决现代汽车中众多电控单元（<code>ECU</code>——<em>Electric Controll Unit</em>)之间的数据交换而开发的一种多主机局部网络<code>串行通讯协议</code>。</p>
+<h3 id="CAN发展时间线"><a href="#CAN发展时间线" class="headerlink" title="CAN发展时间线"></a>CAN发展时间线</h3><blockquote>
+<ul>
+<li><p>1983年 由Bosch和Intel共同开发</p>
+</li>
+<li><p>1986年 Bosch在SAE大会上正式公布CAN协议</p>
+</li>
+<li><p>1987年 Intel和Philips先后推出CAN控制器芯片</p>
+</li>
+<li><p>1991年 Bosch颁布CAN2.0技术规范（分为a，b两个部分）</p>
+</li>
+<li><p>1991年 CAN最早在Benz S系列轿车上实现</p>
+</li>
+<li><p>1993年 ISO颁布CAN国际标准ISO-11898（这个国际标准下是高速CAN，在ISO-11519中规定了低速容错CAN）</p>
+</li>
+<li><p>1994年 Cia组织举办第一届国际CAN大会（iCC）</p>
+</li>
+<li><p>2005年 Cia在中国举办了第一场CAN研讨会</p>
+</li>
+<li><p>2015年 CAN FD的ISO标准化</p>
+</li>
+<li><p>2020年 CAN XL登场第十七届iCC大会</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="CAN总线在汽车网络上的应用以及CAN总线和其他现场总线的对比（速率与经济性）"><a href="#CAN总线在汽车网络上的应用以及CAN总线和其他现场总线的对比（速率与经济性）" class="headerlink" title="CAN总线在汽车网络上的应用以及CAN总线和其他现场总线的对比（速率与经济性）"></a>CAN总线在汽车网络上的应用以及CAN总线和其他现场总线的对比（速率与经济性）</h4><img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20221204125028775-0251914.png" alt="image-20221204125028775" style="zoom:50%;">
+
+<img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230107133423392.png" alt="image-20230107133423392" style="zoom:50%;">
+
+<h2 id="为什么采用CAN？"><a href="#为什么采用CAN？" class="headerlink" title="为什么采用CAN？"></a>为什么采用CAN？</h2><h4 id="传统方案的弊端"><a href="#传统方案的弊端" class="headerlink" title="传统方案的弊端"></a>传统方案的弊端</h4><p>过去，汽车通常采用常规的<code>点对点通信方式</code>将电子控制单元及电子装置连接起来，但随着电子设备的不断增加，导线数量也随之增多，让整个系统变得更为笨重，成本也很高。</p>
+<h4 id="CAN总线的优势"><a href="#CAN总线的优势" class="headerlink" title="CAN总线的优势"></a>CAN总线的优势</h4><ol>
+<li>从传输速度角度<ul>
+<li>数据传输速度相对较高，可达到<code>1 Mbit/s</code>。（此时距离最长<code>40m</code>；通信距离最远可以达到10km，但是速率会降到5kbps以下）（CAN-FD和CAN-XL分别可以达到2 Mbit&#x2F;s和10 Mbit&#x2F;s。）</li>
+</ul>
+</li>
+<li>从成本角度<ul>
+<li><code>多主通信模式</code>，从而降低节点设计成本</li>
+<li>采用<code>双绞线</code>作为通信介质，从而降低布线成本</li>
+</ul>
+</li>
+<li>从可靠性角度<ul>
+<li>采用<code>差分数据线</code>，抗干扰能力强</li>
+<li>使用<code>CRC</code>校验方式，具有错误侦听的自我诊断功能，通信可靠信较高</li>
+<li>报文帧仲裁失败或传输期间被破坏有<code>自动重发机制</code></li>
+<li>节点在错误严重的情况下，具有<code>自动脱离总线</code>的功能，切断与总线的联系，不影响总线的正常工作（错误帧自我诊断）</li>
+</ul>
+</li>
+<li>从实时性角度<ul>
+<li>采用短帧结构，报文帧的有效字节数是<code>8</code>个</li>
+<li>报文ID越小，优先级越高。报文ID分为不同的优先级，进一步满足网络报文的实时性要求</li>
+<li><code>非破坏性总线仲裁处理机制</code></li>
+</ul>
+</li>
+<li>驱动单元数量角度<ul>
+<li>理论上可以带动<code>110个</code>节点</li>
+</ul>
+</li>
+</ol>
+<h2 id="CAN总线理论知识学习"><a href="#CAN总线理论知识学习" class="headerlink" title="CAN总线理论知识学习"></a>CAN总线理论知识学习</h2><h3 id="CAN总线硬件连接以及相关概念介绍"><a href="#CAN总线硬件连接以及相关概念介绍" class="headerlink" title="CAN总线硬件连接以及相关概念介绍"></a>CAN总线硬件连接以及相关概念介绍</h3><img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230107124855486.png" alt="image-20230107124855486" style="zoom:50%;">
+
+<p>(图中ABS，SAS等模块就是汽车上的各个ECU节点)</p>
+<ul>
+<li><p>一个节点包含三个主要部分，<code>微控制器、CAN控制器、CAN收发器</code></p>
+<ul>
+<li><code>CAN收发器</code>：进行数字信号和模拟信号的转换（在总线上传输的是模拟信号，而微控制器处理的是数字信号，在中间需要一个<code>模数转换</code>的桥梁，CAN收发器的部分职责就是模数信号的转换）</li>
+<li><code>CAN控制器</code>：从控制单元中的微控制器接收数据，处理数据并将其传输到CAN收发器。同时，CAN控制器还接收CAN收发器接收到的数据，对数据进行处理，并将其传输给微处理器。</li>
+<li>有的微控制器内部已经集成了CAN控制器，所以在电路连接时可以省略CAN控制器</li>
+</ul>
+</li>
+<li><p>所有节点通过两条线连接起来。两条线分别称为<code>CAN_H</code>和<code>CAN_L</code>。如果要求不高，一般用<code>带屏蔽的双绞线</code>就可以了</p>
+</li>
+<li><p>网络的两端必须有<code>120Ω的终端电阻</code>。所以在设计线路板的时候都要有一个120欧的电阻。</p>
+</li>
+</ul>
+<h3 id="CAN总线物理电气特性"><a href="#CAN总线物理电气特性" class="headerlink" title="CAN总线物理电气特性"></a>CAN总线物理电气特性</h3><h4 id="差分电平传输"><a href="#差分电平传输" class="headerlink" title="差分电平传输"></a>差分电平传输</h4><h5 id="什么是差分电平信号传输？"><a href="#什么是差分电平信号传输？" class="headerlink" title="什么是差分电平信号传输？"></a>什么是差分电平信号传输？</h5><ul>
+<li><p>CAN BUS上的电平信号(CAN_diff)在模拟量上等于CAN_H电平与CAN_L电平的差值（即<code>CAN_diff=CAN_H-CAN_L</code>)</p>
+</li>
+<li><p>收发器发送的数字逻辑信号和总线上的模拟信号对应如下</p>
+</li>
+<li><p><img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230107141728332.png" alt="image-20230107141728332"></p>
+<blockquote>
+<p><strong>注：</strong> 1）CAN标准有两个，即IOS11898和IOS11519，两者差分电平特性不同。这里讲的是IOS11898</p>
+<p>2）不同类型CAN总线相应的CAN_H和CAN_L值也不尽相同</p>
+</blockquote>
+</li>
+<li><p>实例：当CAN控制器向总线上发送逻辑“1”时，CAN收发器将逻辑“1”的数字信号转换为CAN_H上的模拟电平2.5V、CAN_L上的模拟电平2.5V，总线上传递的CAN_diff即为0V，这是一个隐形电平</p>
+</li>
+</ul>
+<p><img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230107141301595.png" alt="image-20230107141301595"></p>
+<h5 id="为什么采用差分信号传输？"><a href="#为什么采用差分信号传输？" class="headerlink" title="为什么采用差分信号传输？"></a>为什么采用差分信号传输？</h5><ul>
+<li>采用差分信号可以提高信号传输的鲁棒性，减少外界噪音的干扰，如下图所示</li>
+</ul>
+<img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230107142330419.png" alt="image-20230107142330419" style="zoom:50%;">
+
+<ul>
+<li>当外界输入噪声时，CAN_H和CAN_L会产生相同的波动，CAN_diff值不受影响</li>
+</ul>
+<h3 id="CAN报文帧种类"><a href="#CAN报文帧种类" class="headerlink" title="CAN报文帧种类"></a>CAN报文帧种类</h3><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>名称</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>数据帧</td>
+<td>用于发送单元向接收单元传送数据的帧。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>遥控帧</td>
+<td>用于接收单元向具有相同 ID 的发送单元请求数据的帧。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>错误帧</td>
+<td>用于当检测出错误时向其它单元通知错误的帧。 （硬件自动完成）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>过载帧</td>
+<td>当一个节点正忙于处理接收的信息,可以通知其它节点暂缓发送新报文。（硬件自动完成）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>帧间隔</td>
+<td>用于将数据帧及遥控帧与前面的帧分离开来的帧（硬件自动完成），由三个连续的隐性位构成</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>错误帧</code>、<code>过载帧</code>、<code>帧间隔</code>都是硬件自动完成的，无法由软件实现控制。对于使用者而言，只需要掌握<code>数据帧</code>和<code>遥控帧</code></li>
+<li>数据帧和遥控帧又分为<code>标准格式</code>和<code>扩展格式</code></li>
+<li>标准格式有<code>11位</code>标识符，而扩展格式有<code>29位</code>标识符</li>
+</ul>
+<h4 id="遥控帧结构图"><a href="#遥控帧结构图" class="headerlink" title="遥控帧结构图"></a>遥控帧结构图</h4><img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230108211537162.png" alt="image-20230108211537162" style="zoom:50%;">
+
+<h4 id="数据帧结构图"><a href="#数据帧结构图" class="headerlink" title="数据帧结构图"></a>数据帧结构图</h4><img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230108211618144.png" alt="image-20230108211618144" style="zoom:50%;">
+
+<ul>
+<li>可以看出——数据帧和遥控帧最明显的区别就是有没有<code>数据段</code></li>
+</ul>
+<h4 id="帧结构各段详解"><a href="#帧结构各段详解" class="headerlink" title="帧结构各段详解"></a>帧结构各段详解</h4><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>帧起始</td>
+<td>表示帧的起始，产生一个bit的显性电平（逻辑0）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>仲裁段</td>
+<td>表示帧的优先级，由标识符（ID）和传送帧类型(RTR)组成。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>控制段</td>
+<td>表示数据的字节数，由6个bit组成</td>
+</tr>
+<tr>
+<td>4</td>
+<td>数据段</td>
+<td>数据发送的具体内容，可产生0-8个字节的数据</td>
+</tr>
+<tr>
+<td>5</td>
+<td>CRC段</td>
+<td>校验传输帧的正确性</td>
+</tr>
+<tr>
+<td>6</td>
+<td>ACK段</td>
+<td>表示确认是否正常接受</td>
+</tr>
+<tr>
+<td>7</td>
+<td>帧结束</td>
+<td>表示此帧结束，由七个连续的隐性电平构成</td>
+</tr>
+</tbody></table>
+<h5 id="什么时候认定总线空闲？"><a href="#什么时候认定总线空闲？" class="headerlink" title="什么时候认定总线空闲？"></a>什么时候认定总线空闲？</h5><ul>
+<li>当连续监测到<code>11个隐形位</code>时认定总线空闲（bus idle），即7（帧结束）+4（帧间隔）+1（SOF，SOF只有为显性电平时会启动一个新的帧，监测到0就是没有发送新的帧，即总线空闲）</li>
+</ul>
+<h5 id="仲裁段"><a href="#仲裁段" class="headerlink" title="仲裁段"></a>仲裁段</h5><ul>
+<li><p>仲裁段里含有CAN通信中一项非常重要的信息<code>（ID）</code>，你可以把它当成是每一个报文的名字，每个CAN device可以发送多条不同的ID报文。每一个总线节点的CAN控制器中都有一个东西叫<code>过滤器</code>，通过设置相关寄存器能够配置它，一旦设置好，CAN控制器会根据你的设置，自动去判断要不要接收报文，这部分完全由硬件实现，这个判断要不要接收的过程，也叫过滤，判断的依据就是每个报文的ID。</p>
+</li>
+<li><p>扩展格式的ID具有比标准格式更多的位数，从而有更高的ID容量</p>
+<img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230108213947196.png" alt="image-20230108213947196" style="zoom:50%;">
+</li>
+<li><p>标准格式的标识符长度的是11位，紧随其后的是<code>RTR位，用于表明此帧是数据帧还是远程帧</code>（逻辑0是远程帧，逻辑1为数据帧）。<code>IDE位用于表明此帧是标准帧还是扩展帧</code>（逻辑0为标准帧，逻辑1为扩展帧）。</p>
+</li>
+<li><p>扩展格式的标识符长度的是29位，紧随其后的是RTR位，用于表明此帧是数据帧还是远程帧。IDE位用于表明此帧是标准帧还是扩展帧。</p>
+</li>
+</ul>
+<h5 id="控制段"><a href="#控制段" class="headerlink" title="控制段"></a>控制段</h5><ul>
+<li><p>控制段含有<code>保留位(r0,r1)</code>和<code>数据长度码(DLC)</code></p>
+</li>
+<li><p>保留位（r0、r1) 必须全部以<code>显性电平(逻辑0）</code>发送。但接收方可以接收<code>显性、隐性及其任意组合的电平</code>。</p>
+</li>
+<li><p>数据长度码（DLC） 与数据的字节数的对应关系下表所示。数据的字节数必须为 0～8字节。<code>但接收方对 DLC=9～15的情况并不视为错误。</code></p>
+</li>
+</ul>
+<img src="/2023/01/07/CAN%E6%80%BB%E7%BA%BF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/image-20230108214438972.png" alt="image-20230108214438972" style="zoom:50%;">
+
+<h5 id="数据段"><a href="#数据段" class="headerlink" title="数据段"></a>数据段</h5><ul>
+<li>数据段就是你需要发送的数据，可能包含字符<code>0~8个字节数据</code>，CAN控制器有对应的寄存器，只需要把数据直接填进去就可以了。</li>
+</ul>
+<h3 id="CAN总线仲裁方式"><a href="#CAN总线仲裁方式" class="headerlink" title="CAN总线仲裁方式"></a>CAN总线仲裁方式</h3><p>CAN总线采用的是一种<code>非破坏性总线仲裁方式</code></p>
+<ul>
+<li><p>在总线空闲时，刚开始发送的节点获得发送权，一旦开始发送，就<code>不会被别的节点抢占</code></p>
+</li>
+<li><p>如果多个节点在总线空闲时同时发送，各发送节点从仲裁段的第一位开始进行仲裁。<code>连续输出显性电平最多的节点可继续发送</code>。(基于<code>CAN总线线与规则</code>)</p>
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h3 id><a href="#" class="headerlink" title></a></h3><blockquote>
+<blockquote>
+<p>视频资源</p>
+<ul>
+<li><a href="https://www.bilibili.com/video/BV1gD4y1U7bJ/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">广州虹科电子CAN总线技术基础培训合集</a></li>
+<li><a href="https://www.bilibili.com/video/BV1Dq4y1J7WA/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">CAN通信速成，从会到不会～</a></li>
+</ul>
+</blockquote>
+<blockquote>
+<p>博客资源</p>
+<ul>
+<li><a href="https://blog.csdn.net/weixin_44793491/article/details/107298426?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167306687716800211536038%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167306687716800211536038&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-107298426-null-null.142%5Ev70%5Epc_new_rank,201%5Ev4%5Eadd_ask&utm_term=CAN%E9%80%9A%E4%BF%A1%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86&spm=1018.2226.3001.4187">CAN通信知识梳理及在Stm32上的应用（HAL库）</a></li>
+</ul>
+</blockquote>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>Monash_ETB1100_Business Statistics</title>
+    <url>/2025/01/06/Monash_ETB1100_Business%20Statistics/</url>
+    <content><![CDATA[<ul>
+<li><p>商业数据统计需要具有比较好的概率论、统计学基础</p>
+</li>
+<li><p>作业考试结合excel去计算，会python的话也可以，但是老师会教授excel</p>
+<p><img src="/2025/01/06/Monash_ETB1100_Business%20Statistics/image-20250106144921113.png" alt="image-20250106144921113"></p>
+</li>
+</ul>
+<img src="/2025/01/06/Monash_ETB1100_Business%20Statistics/image-20250106145009041.png" alt="image-20250106145009041" style="zoom: 67%;">
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UNSW_COMP9020_Foundations of Computer Science</title>
+    <url>/2025/01/06/Science/</url>
+    <content><![CDATA[<p>全程辅导 + quiz作业</p>
+<p><img src="/2025/01/06/Science/image-20250106103658413.png" alt="image-20250106103658413"></p>
+<p><img src="/2025/01/06/Science/image-20250106103737673.png" alt="image-20250106103737673"></p>
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UNSW_MECH9761_Automobile Engine Technology</title>
+    <url>/2025/01/06/Technology/</url>
+    <content><![CDATA[<ul>
+<li>全程辅导：主要是辅导ppt以及Demo questions</li>
+<li>课程侧重于理解+记忆</li>
+</ul>
+<img src="/2025/01/06/Technology/image-20250106104446329.png" alt="image-20250106104446329" style="zoom:67%;">
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>The University of Adelaide_COMPSCI 3314, 7314_Machine Learning</title>
+    <url>/2025/01/07/The%20University%20of%20Adelaide_COMPSCI%203314,%207314_ML/</url>
+    <content><![CDATA[<ul>
+<li>为同学进行了考前复习、样卷讲解</li>
+</ul>
+<img src="/2025/01/07/The%20University%20of%20Adelaide_COMPSCI%203314,%207314_ML/image-20250106145501220.png" alt="image-20250106145501220" style="zoom:50%;">
+
+<img src="/2025/01/07/The%20University%20of%20Adelaide_COMPSCI%203314,%207314_ML/image-20250106145542808.png" alt="image-20250106145542808" style="zoom: 67%;">]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UMEL_MCEN30018_thermodynamics &amp; fluids</title>
+    <url>/2025/01/06/UMEL_MCEN30018_thermodynamics%20&amp;%20fluids/</url>
+    <content><![CDATA[<ul>
+<li>包括工程热力学（thermodynamics) 和 流体力学 （fluid mechanics) 两部分，两部分难度基本相当</li>
+<li>主要进行了ppt的考前快速梳理以及tutorial questions 的讲解（一般老师会有考前复习课勾出重要的考题，需重点关注）</li>
+</ul>
+<p><img src="/2025/01/06/UMEL_MCEN30018_thermodynamics%20&%20fluids/image-20250106105733729.png" alt="image-20250106105733729"></p>
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UMEL_ELEN90091_Semiconductor Devices</title>
+    <url>/2025/01/06/UMEL_ELEN90091_Semiconductor%20Devices/</url>
+    <content><![CDATA[<ul>
+<li>全程ppt讲解 + 考前重点复习</li>
+<li>课程难度较高，侧重于理解 + 记忆</li>
+</ul>
+<img src="/2025/01/06/UMEL_ELEN90091_Semiconductor%20Devices/image-20250106110225720.png" alt="image-20250106110225720" style="zoom:67%;">
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UMEL_MCEN30020_Systems Modelling Analysis</title>
+    <url>/2025/01/06/UMEL_MCEN30020_Systems%20Modelling%20Analysis/</url>
+    <content><![CDATA[<ul>
+<li><p>课程难度较高，知识点多、对数学的要求比较高（linear algebra 、 complex  function 、ODE)</p>
+</li>
+<li><p>上下学期的考试侧重点有所不同，备考时需要注意</p>
+<p><img src="/2025/01/06/UMEL_MCEN30020_Systems%20Modelling%20Analysis/image-20250106105151035.png" alt="image-20250106105151035"></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UMEL_MCEN30021_Mechanisms and Machines</title>
+    <url>/2025/01/06/UMEL_MCEN30021_Mechanisms%20and%20Machines/</url>
+    <content><![CDATA[<ul>
+<li>课程主要讲解了各种常见机械机构的原理</li>
+<li>评分包括 机械设计（group work）和 考试（计算题为主），难度中等</li>
+<li>进行了考前复习辅导</li>
+</ul>
+<img src="/2025/01/06/UMEL_MCEN30021_Mechanisms%20and%20Machines/image-20250106112553724.png" alt="image-20250106112553724" style="zoom:50%;">]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UNSW_AERO9500_Space Systems Architectures and Orbits</title>
+    <url>/2025/01/06/UNSW_AERO9500_Space%20Systems%20Architectures%20and%20Orbits/</url>
+    <content><![CDATA[<ul>
+<li>本课程主要难点在轨道动力学，需要较强的数理基础</li>
+<li>大作业 + 考试的考核模式</li>
+<li>全程：讲课+考前突击+报告辅导</li>
+<li>需要学习STK软件，为后面的轨道设计作准备</li>
+</ul>
+<img src="/2025/01/06/UNSW_AERO9500_Space%20Systems%20Architectures%20and%20Orbits/image-20250106171631629.png" alt="image-20250106171631629" style="zoom:67%;">
+
+<p><img src="/2025/01/06/UNSW_AERO9500_Space%20Systems%20Architectures%20and%20Orbits/image-20250106171845274.png" alt="image-20250106171845274"></p>
+<img src="/2025/01/06/UNSW_AERO9500_Space%20Systems%20Architectures%20and%20Orbits/image-20250106171959782.png" alt="image-20250106171959782" style="zoom:50%;">
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UNSW_AERO9610_The Space Segment</title>
+    <url>/2025/01/07/UNSW_AERO9610_The%20Space%20Segment/</url>
+    <content><![CDATA[<ul>
+<li><p>考试 + 大作业，大作业占比更高一些</p>
+</li>
+<li><p>需要Matlab编程基础，最后的大作业进行航天器总体设计的时候需要对分系统的代码进行调整</p>
+</li>
+</ul>
+<img src="/2025/01/07/UNSW_AERO9610_The%20Space%20Segment/image-20250106172443633.png" alt="image-20250106172443633" style="zoom: 50%;">
+
+<p><img src="/2025/01/07/UNSW_AERO9610_The%20Space%20Segment/image-20250106172528346.png" alt="image-20250106172528346"></p>
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UNSW_MECH9325_Fundamentals of Acoustics and Noise</title>
+    <url>/2025/01/06/UNSW_MECH9325_Fundamentals%20of%20Acoustics%20and%20Noise/</url>
+    <content><![CDATA[<ul>
+<li>分数的主要组成部分是quiz和final（均为线上）</li>
+<li>题型基本为计算题</li>
+<li>为了提高做题速度，可以提前编写一些脚本（python or matlab）</li>
+</ul>
+<p><img src="/2025/01/06/UNSW_MECH9325_Fundamentals%20of%20Acoustics%20and%20Noise/image-20250106110815516.png" alt="image-20250106110815516"></p>
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UNSW_MECH9325_Fundamentals of Acoustics and Noise</title>
+    <url>/2025/01/06/UNSW_MECH9325_Fundamentals%20of%20Acoustics%20and%20Noise_prj/</url>
+    <content><![CDATA[<ul>
+<li>基于Comsol软件进行了加隔音斗篷的（multilayered cloak）声场仿真并且制作了展示poster</li>
+</ul>
+<img src="/2025/01/06/UNSW_MECH9325_Fundamentals%20of%20Acoustics%20and%20Noise_prj/image-20250106205249507.png" alt="image-20250106205249507" style="zoom: 50%;">
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UNSW_MMAN4400_Engineering Economics I</title>
+    <url>/2025/01/06/UNSW_MMAN4400_Engineering%20Economics%20I/</url>
+    <content><![CDATA[<ul>
+<li><p>为同学进行了学期内同步辅导</p>
+</li>
+<li><p>该课程需要借助excel函数完成一些常用的计算</p>
+<img src="/2025/01/06/UNSW_MMAN4400_Engineering%20Economics%20I/image-20250106144519219.png" alt="image-20250106144519219" style="zoom:50%;"></li>
+</ul>
+<img src="/2025/01/06/UNSW_MMAN4400_Engineering%20Economics%20I/image-20250106144610899.png" alt="image-20250106144610899" style="zoom:50%;">
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOB_CFD&amp;FEA project 2</title>
+    <url>/2025/01/06/UOB_CFD&amp;FEA%202/</url>
+    <content><![CDATA[<ul>
+<li>本作业使用了comsol6.2对中心带孔有限大薄板进行了应力集中的仿真计算（FEA）并于理论计算结果相对比。同时参考了不同网格数量得出的仿真计算结果；深入研究了网格数量与FEA准确性、计算时间等参数之间的关系。</li>
+</ul>
+<img src="/2025/01/06/UOB_CFD&FEA%202/image-20250106211645337.png" alt="image-20250106211645337">
+
+<ul>
+<li>本作业使用Matlab2023b进行了二维有限元计算，总计划分4个网格。在完成任务中，编写了多个函数可以实现对任意二维有限元模型进行网格划分与静力学仿真计算，并预留了流体力学与热力学的函数接口，可用于日后进一步的详细研究。同时，程序中亦包含了可视化出图等模块。作业中，将结果与comsl中的仿真结果对比，精度可达0.4%。</li>
+</ul>
+<p><img src="/2025/01/06/UOB_CFD&FEA%202/image-20250106211754125.png" alt="image-20250106211754125"></p>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOB_CFD&amp;FEA project 1</title>
+    <url>/2025/01/06/UOB_CFD&amp;FEA/</url>
+    <content><![CDATA[<ul>
+<li>基于Fluent 2023R2</li>
+<li>进行了赛车尾翼的CFD设计</li>
+</ul>
+<img src="/2025/01/06/UOB_CFD&FEA/image-20250106211343270.png" alt="image-20250106211343270" style="zoom:67%;">
+
+<img src="/2025/01/06/UOB_CFD&FEA/image-20250106211443264.png" alt="image-20250106211443264" style="zoom:67%;">
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOL_ENGG110_Solids and Structures 1</title>
+    <url>/2025/01/06/UOL_ENGG110_Solids%20and%20Structures%201/</url>
+    <content><![CDATA[<img src="/2025/01/06/UOL_ENGG110_Solids%20and%20Structures%201/image-20250106152407518.png" alt="image-20250106152407518" style="zoom:67%;">
+
+<img src="/2025/01/06/UOL_ENGG110_Solids%20and%20Structures%201/image-20250106152437381.png" alt="image-20250106152437381" style="zoom:67%;">]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOL_ENGG116_energy science</title>
+    <url>/2025/01/06/UOL_ENGG116_energy%20science/</url>
+    <content><![CDATA[<ul>
+<li>本门课融合了流体力学、工程热力学与传热学的知识，但是都是比较基础</li>
+<li>带同学进行了考前复习</li>
+</ul>
+<p><img src="/2025/01/06/UOL_ENGG116_energy%20science/image-20250106143946332.png" alt="image-20250106143946332"></p>
+<p><img src="/2025/01/06/UOL_ENGG116_energy%20science/image-20250106144014801.png" alt="image-20250106144014801"></p>
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOL_ENGG198_MATHEMATICAL TECHNIQUES FOR ENGINEERS</title>
+    <url>/2025/01/06/UOL_ENGG198_MATHEMATICAL%20TECHNIQUES%20FOR%20ENGINEERS/</url>
+    <content><![CDATA[<ul>
+<li>本课程是大一同学修读的高等数学基础课程，虽然难度不是很高，但是对于刚进入大学的同学还是应该认真对待</li>
+<li>带同学进行了考前复习</li>
+</ul>
+<p><img src="/2025/01/06/UOL_ENGG198_MATHEMATICAL%20TECHNIQUES%20FOR%20ENGINEERS/image-20250106143532661.png" alt="image-20250106143532661"></p>
+<img src="/2025/01/06/UOL_ENGG198_MATHEMATICAL%20TECHNIQUES%20FOR%20ENGINEERS/image-20250106143449391.png" alt="image-20250106143449391" style="zoom:50%;">
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOL_ENGG209_Solids and structures 2</title>
+    <url>/2025/01/06/UOL_ENGG209_Solids%20and%20structures%202/</url>
+    <content><![CDATA[<ul>
+<li>本课程侧重于讲解固体力学，是利物浦大学大二机械类专业必修课</li>
+</ul>
+<p><img src="/2025/01/06/UOL_ENGG209_Solids%20and%20structures%202/image-20250106144131614.png" alt="image-20250106144131614"></p>
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>USYD_CIVL3704_Transport Informatics</title>
+    <url>/2025/01/08/USYD_CIVL3704_Transport%20Informatics/</url>
+    <content><![CDATA[<ul>
+<li>撰写python代码完成了交通流的分析问题（主要工作为数据处理）</li>
+</ul>
+<p><img src="/2025/01/08/USYD_CIVL3704_Transport%20Informatics/image-20250106164826451.png" alt="image-20250106164826451"></p>
+<img src="/2025/01/08/USYD_CIVL3704_Transport%20Informatics/image-20250106164901985.png" alt="image-20250106164901985" style="zoom:67%;">
+
+<p><img src="/2025/01/08/USYD_CIVL3704_Transport%20Informatics/image-20250106164845124.png" alt="image-20250106164845124"></p>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOL_MATS105_Introduction to Engineering Materials</title>
+    <url>/2025/01/07/UOL_MATS105_Introduction%20to%20Engineering%20Materials/</url>
+    <content><![CDATA[<ul>
+<li>给同学进行了考前复习和往年试题讲解</li>
+</ul>
+<img src="/2025/01/07/UOL_MATS105_Introduction%20to%20Engineering%20Materials/image-20250106151708243.png" alt="image-20250106151708243" style="zoom:50%;">
+
+<img src="/2025/01/07/UOL_MATS105_Introduction%20to%20Engineering%20Materials/image-20250106151755567.png" alt="image-20250106151755567" style="zoom:67%;">
+]]></content>
+      <categories>
+        <category>授课</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>USYD_ELEC1601_Introduction to Computer Systems</title>
+    <url>/2025/01/09/USYD_ELEC1601_Introduction%20to%20Computer%20Systems/</url>
+    <content><![CDATA[<ul>
+<li><p>辅导完成小车避障项目（主要难点为在迷宫里完成轨迹修正）</p>
+</li>
+<li><p>开发平台：Arduino</p>
+</li>
+<li><p>编程语言： C++</p>
+</li>
+</ul>
+<img src="/2025/01/09/USYD_ELEC1601_Introduction%20to%20Computer%20Systems/image-20250106170343588.png" alt="image-20250106170343588" style="zoom:50%;">
+
+<img src="/2025/01/09/USYD_ELEC1601_Introduction%20to%20Computer%20Systems/image-20250106170358413.png" alt="image-20250106170358413" style="zoom:67%;">
+
+<ul>
+<li>部分代码展示</li>
+</ul>
+<p><img src="/2025/01/09/USYD_ELEC1601_Introduction%20to%20Computer%20Systems/image-20250106170703276.png" alt="image-20250106170703276"></p>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>hexo博客设置加密</title>
+    <url>/2022/12/06/hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E5%85%A8%E5%B1%80%E6%90%9C%E7%B4%A2/</url>
+    <content><![CDATA[<p><a href="https://zhuanlan.zhihu.com/p/664892365">https://zhuanlan.zhihu.com/p/664892365</a></p>
+]]></content>
+      <categories>
+        <category>hexo博客搭建</category>
+        <category>hexo进阶</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>_config.yml文件的配置详解</title>
+    <url>/2022/12/06/config-yml%E6%96%87%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<ul>
+<li>_config.yml共有两个，一个在博客总目录下，另一个在主题的目录下</li>
+</ul>
+<h2 id="全局-config-yml参数总览"><a href="#全局-config-yml参数总览" class="headerlink" title="全局_config.yml参数总览"></a>全局_config.yml参数总览</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo Configuration</span></span><br><span class="line"><span class="comment">## Docs: http://hexo.io/docs/configuration.html</span></span><br><span class="line"><span class="comment">## Source: https://github.com/hexojs/hexo/</span></span><br><span class="line"><span class="comment"># Site 站点配置</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Hexo-demo</span> <span class="comment">#网站标题</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">hexo</span> <span class="string">is</span> <span class="string">simple</span> <span class="string">and</span> <span class="string">easy</span> <span class="string">to</span> <span class="string">study</span> <span class="comment">#网站副标题</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">this</span> <span class="string">is</span> <span class="string">hexo-demo</span> <span class="comment">#网栈描述</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">pomy</span> <span class="comment">#你的名字</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span> <span class="comment">#网站使用的语言</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span> <span class="comment">#网站时区</span></span><br><span class="line"><span class="comment"># URL #可以不用配置</span></span><br><span class="line"><span class="comment">## If your site is put in a subdirectory, set url as &#x27;http://yoursite.com/child&#x27; and root as &#x27;/child/&#x27;</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">http://yoursite.com</span> <span class="comment">#网址，搜索时会在搜索引擎中显示</span></span><br><span class="line"><span class="attr">root:</span> <span class="string">/</span> <span class="comment">#网站根目录</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">:year/:month/:day/:title/</span> <span class="comment">#永久链接格式</span></span><br><span class="line"><span class="attr">permalink_defaults:</span> <span class="comment">#永久链接中各部分的默认值</span></span><br><span class="line"><span class="comment"># Directory 目录配置</span></span><br><span class="line"><span class="attr">source_dir:</span> <span class="string">source</span> <span class="comment">#资源文件夹，这个文件夹用来存放内容</span></span><br><span class="line"><span class="attr">public_dir:</span> <span class="string">public</span> <span class="comment">#公共文件夹，这个文件夹用于存放生成的站点文件</span></span><br><span class="line"><span class="attr">tag_dir:</span> <span class="string">tags</span> <span class="comment">#标签文件夹</span></span><br><span class="line"><span class="attr">archive_dir:</span> <span class="string">archives</span> <span class="comment">#归档文件夹</span></span><br><span class="line"><span class="attr">category_dir:</span> <span class="string">categories</span> <span class="comment">#分类文件夹</span></span><br><span class="line"><span class="attr">code_dir:</span> <span class="string">downloads/code</span> <span class="comment">#Include code 文件夹</span></span><br><span class="line"><span class="attr">i18n_dir:</span> <span class="string">:lang</span> <span class="comment">#国际化文件夹</span></span><br><span class="line"><span class="attr">skip_render:</span> <span class="comment">#跳过指定文件的渲染，您可使用 glob 来配置路径</span></span><br><span class="line"><span class="comment"># Writing 写作配置</span></span><br><span class="line"><span class="attr">new_post_name:</span> <span class="string">:title.md</span> <span class="comment"># 新文章的文件名称</span></span><br><span class="line"><span class="attr">default_layout:</span> <span class="string">post</span> <span class="comment">#默认布局</span></span><br><span class="line"><span class="attr">titlecase:</span> <span class="literal">false</span> <span class="comment"># Transform title into titlecase</span></span><br><span class="line"><span class="attr">external_link:</span> <span class="literal">true</span> <span class="comment"># Open external links in new tab</span></span><br><span class="line"><span class="attr">filename_case:</span> <span class="number">0</span> <span class="comment">#把文件名称转换为 (1) 小写或 (2) 大写</span></span><br><span class="line"><span class="attr">render_drafts:</span> <span class="literal">false</span> <span class="comment">#显示草稿</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">false</span> <span class="comment">#是否启动资源文件夹</span></span><br><span class="line"><span class="attr">relative_link:</span> <span class="literal">false</span> <span class="comment">#把链接改为与根目录的相对位址</span></span><br><span class="line"><span class="attr">future:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">highlight:</span> <span class="comment">#代码块的设置</span></span><br><span class="line"><span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">line_number:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">auto_detect:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">tab_replace:</span></span><br><span class="line"><span class="comment"># Category &amp; Tag 分类 &amp; 标签</span></span><br><span class="line"><span class="attr">default_category:</span> <span class="string">uncategorized</span> <span class="comment">#默认分类</span></span><br><span class="line"><span class="attr">category_map:</span> <span class="comment">#分类别名</span></span><br><span class="line"><span class="attr">tag_map:</span> <span class="comment">#标签别名</span></span><br><span class="line"><span class="comment"># Date / Time format 时间和日期</span></span><br><span class="line"><span class="comment">## Hexo uses Moment.js to parse and display date</span></span><br><span class="line"><span class="comment">## You can customize the date format as defined in</span></span><br><span class="line"><span class="comment">## http://momentjs.com/docs/#/displaying/format/</span></span><br><span class="line"><span class="attr">date_format:</span> <span class="string">YYYY-MM-DD</span></span><br><span class="line"><span class="attr">time_format:</span> <span class="string">HH:mm:ss</span></span><br><span class="line"><span class="comment"># Pagination 分页</span></span><br><span class="line"><span class="comment">## Set per_page to 0 to disable pagination</span></span><br><span class="line"><span class="attr">per_page:</span> <span class="number">10</span> <span class="comment">#每页显示的文章量 (0 = 关闭分页功能)</span></span><br><span class="line"><span class="attr">pagination_dir:</span> <span class="string">page</span> <span class="comment">#分页目录</span></span><br><span class="line"><span class="comment"># Extensions 扩展</span></span><br><span class="line"><span class="comment">## Plugins: http://hexo.io/plugins/ 插件</span></span><br><span class="line"><span class="comment">## Themes: http://hexo.io/themes/ 主题</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">landscape</span> <span class="comment">#当前主题名称</span></span><br><span class="line"><span class="comment"># Deployment #部署到github</span></span><br><span class="line"><span class="comment">## Docs: http://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">type:</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="主题-config-yml参数总览"><a href="#主题-config-yml参数总览" class="headerlink" title="主题_config.yml参数总览"></a>主题_config.yml参数总览</h2><h2 id="优先级比较"><a href="#优先级比较" class="headerlink" title="优先级比较"></a>优先级比较</h2><ul>
+<li>在设置参数相同时，全局配置高于主题配置</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/127786638">Hexo全局配置文件config.yml详解 - 知乎 (zhihu.com)</a></li>
+<li><a href="https://hexo.io/zh-cn/docs/configuration.html">配置 | Hexo</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>hexo博客搭建</category>
+        <category>hexo进阶</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>hexo博客设置加密</title>
+    <url>/2022/12/06/hexo%E5%8D%9A%E5%AE%A2%E8%AE%BE%E7%BD%AE%E5%8A%A0%E5%AF%86/</url>
+    <content><![CDATA[<h2 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h2><ul>
+<li>在终端中安装支持加密功能的插件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-blog-encrypt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改全局配置文件_config.yml,加入encrypt属性</li>
+</ul>
+<img src="/2022/12/06/hexo%E5%8D%9A%E5%AE%A2%E8%AE%BE%E7%BD%AE%E5%8A%A0%E5%AF%86/image-20221206100811777.png" alt="image-20221206100811777" style="zoom:50%;">
+
+<h2 id="博文文章添加加密字段"><a href="#博文文章添加加密字段" class="headerlink" title="博文文章添加加密字段"></a>博文文章添加加密字段</h2><p>举个🌰</p>
+<img src="/2022/12/06/hexo%E5%8D%9A%E5%AE%A2%E8%AE%BE%E7%BD%AE%E5%8A%A0%E5%AF%86/image-20221206101553872.png" alt="image-20221206101553872" style="zoom:50%;">
+
+
+
+<h2 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h2><ul>
+<li>运行博客，访问加密文章</li>
+</ul>
+<p><img src="/2022/12/06/hexo%E5%8D%9A%E5%AE%A2%E8%AE%BE%E7%BD%AE%E5%8A%A0%E5%AF%86/image-20221206101434700.png" alt="image-20221206101434700"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li>[(13条消息) Hexo博客设置文章加密_没有八个的博客-CSDN博客_hexo-blog-encrypt](<a href="https://blog.csdn.net/WwLK123/article/details/124436871#:~:text=%E4%BB%8A%E5%A4%A9%E7%BB%99%E5%A4%A7%E5%AE%B6%E6%8E%A8%E8%8D%90%E4%B8%80%E6%AC%BE%E9%80%82%E7%94%A8%E4%BA%8E">https://blog.csdn.net/WwLK123/article/details/124436871#:~:text=今天给大家推荐一款适用于</a> Hexo 的静态博客 加密,插件： hexo-blog-encrypt ，搭配此插件你可以写一些比较私密的博客，通过密码验证的方式让其他人不能随意浏览。 1、安装插件)</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>hexo博客搭建</category>
+        <category>hexo进阶</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>hexo博客远程部署</title>
+    <url>/2022/12/06/hexo%E5%8D%9A%E5%AE%A2%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>本文借助gitee pages完成静态网页的推送</li>
+</ul>
+<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href></a></li>
+<li><a href></a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>hexo博客搭建</category>
+        <category>远程部署</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>图片插入问题与解决</title>
+    <url>/2022/12/06/%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<h2 id="问题产生背景"><a href="#问题产生背景" class="headerlink" title="问题产生背景"></a>问题产生背景</h2><ul>
+<li>出于对云端图床可靠性的不信任，我将markdown博客中所用到的图片进行本地化存储（即另建一个文件夹存放文件中插入的图片的原件）</li>
+</ul>
+<h2 id="问题描述与解决"><a href="#问题描述与解决" class="headerlink" title="问题描述与解决"></a>问题描述与解决</h2><h3 id="问题一：如何将博客连带图片一同推送到本地端口？"><a href="#问题一：如何将博客连带图片一同推送到本地端口？" class="headerlink" title="问题一：如何将博客连带图片一同推送到本地端口？"></a>问题一：如何将博客连带图片一同推送到本地端口？</h3><p>在此给出一种typora和博客推送联动，完成博客连带图片一体化推送的方案，需要以下步骤</p>
+<ul>
+<li>插件安装与配置——安装插件	<em>hexo-asset-image</em></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>但是这个插件的内容需要修改【不然可能会出Bug】</p>
+<p>打开&#x2F;node_modules&#x2F;hexo-asset-image&#x2F;index.js，将内容更换为下面的代码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getPosition</span>(<span class="params">str, m, i</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> str.<span class="title function_">split</span>(m, i).<span class="title function_">join</span>(m).<span class="property">length</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> version = <span class="title class_">String</span>(hexo.<span class="property">version</span>).<span class="title function_">split</span>(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">filter</span>.<span class="title function_">register</span>(<span class="string">&#x27;after_post_render&#x27;</span>, <span class="keyword">function</span>(<span class="params">data</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> config = hexo.<span class="property">config</span>;</span><br><span class="line">  <span class="keyword">if</span>(config.<span class="property">post_asset_folder</span>)&#123;</span><br><span class="line">    	<span class="keyword">var</span> link = data.<span class="property">permalink</span>;</span><br><span class="line">	<span class="keyword">if</span>(version.<span class="property">length</span> &gt; <span class="number">0</span> &amp;&amp; <span class="title class_">Number</span>(version[<span class="number">0</span>]) == <span class="number">3</span>)</span><br><span class="line">	   <span class="keyword">var</span> beginPos = <span class="title function_">getPosition</span>(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	   <span class="keyword">var</span> beginPos = <span class="title function_">getPosition</span>(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">3</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;.../about/index.html&quot;.</span></span><br><span class="line">	<span class="keyword">var</span> endPos = link.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>;</span><br><span class="line">    link = link.<span class="title function_">substring</span>(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> toprocess = [<span class="string">&#x27;excerpt&#x27;</span>, <span class="string">&#x27;more&#x27;</span>, <span class="string">&#x27;content&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; toprocess.<span class="property">length</span>; i++)&#123;</span><br><span class="line">      <span class="keyword">var</span> key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">var</span> $ = cheerio.<span class="title function_">load</span>(data[key], &#123;</span><br><span class="line">        <span class="attr">ignoreWhitespace</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">xmlMode</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">lowerCaseTags</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">decodeEntities</span>: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">&#x27;img&#x27;</span>).<span class="title function_">each</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">		<span class="keyword">if</span> ($(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>))&#123;</span><br><span class="line">			<span class="comment">// For windows style path, we replace &#x27;\&#x27; to &#x27;/&#x27;.</span></span><br><span class="line">			<span class="keyword">var</span> src = $(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>).<span class="title function_">replace</span>(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			<span class="keyword">if</span>(!<span class="regexp">/http[s]*.*|\/\/.*/</span>.<span class="title function_">test</span>(src) &amp;&amp;</span><br><span class="line">			   !<span class="regexp">/^\s*\//</span>.<span class="title function_">test</span>(src)) &#123;</span><br><span class="line">			  <span class="comment">// For &quot;about&quot; page, the first part of &quot;src&quot; can&#x27;t be removed.</span></span><br><span class="line">			  <span class="comment">// In addition, to support multi-level local directory.</span></span><br><span class="line">			  <span class="keyword">var</span> linkArray = link.<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">elem</span>)&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">var</span> srcArray = src.<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">elem</span>)&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span> &amp;&amp; elem != <span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">if</span>(srcArray.<span class="property">length</span> &gt; <span class="number">1</span>)</span><br><span class="line">				srcArray.<span class="title function_">shift</span>();</span><br><span class="line">			  src = srcArray.<span class="title function_">join</span>(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			  $(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>, config.<span class="property">root</span> + link + src);</span><br><span class="line">			  <span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;update link as:--&gt;&quot;</span>+config.<span class="property">root</span> + link + src);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;no src attr, skipped...&quot;</span>);</span><br><span class="line">			<span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>($(<span class="variable language_">this</span>));</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      data[key] = $.<span class="title function_">html</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>打开_config.yml文件，修改下述内容</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>做好这些准备工作后，进入typora写作工作流</p>
+<ul>
+<li>在写作中复制一张图片时，我们可以更改其保存在本地的路径，我们作如下配置</li>
+</ul>
+<img src="/2022/12/06/%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20221205231729897.png" alt="image-20221205231729897" style="zoom:50%;">
+
+<ul>
+<li>这样复制一张图片后，图片的文件会自动保存在同目录下一个与博客文件同名的文件夹中。注意，这里的“同名”非常理想。因为一般利用hexo new指令新建一个文件后会生成一个与之同名的文件夹用来保存图片文件，这与typora的工作相同，所以经过typora上我们对图片的复制粘贴后，图片自然而然地符合了hexo对图片的路径逻辑</li>
+</ul>
+</li>
+</ul>
+<h3 id="问题二：为什么按照前文所述的方法，有的图片在博客中显示，而有的却显示不了？"><a href="#问题二：为什么按照前文所述的方法，有的图片在博客中显示，而有的却显示不了？" class="headerlink" title="问题二：为什么按照前文所述的方法，有的图片在博客中显示，而有的却显示不了？"></a>问题二：为什么按照前文所述的方法，有的图片在博客中显示，而有的却显示不了？</h3><ul>
+<li>经过比对，不能显示的图片有个共性——图片没有缩放。容易推测到，是图片的大小导致了图片渲染的失败，所以在typora中编辑图片的缩放值，再次进行测试，测试通过</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://blog.csdn.net/xjm850552586/article/details/84101345">(12条消息) hexo引用本地图片无法显示_Ericam_的博客-CSDN博客_hexo引用本地图片</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>hexo博客搭建</category>
+        <category>基础入门</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>UOL_ENGG185_INTRODUCTION To STATISTICS AND PROGRAMMING FOR ENGINEERS</title>
+    <url>/2024/09/21/%E5%9F%BA%E4%BA%8ECreo%E7%9A%84%E6%B4%BB%E5%A1%9E%E6%9C%BA%E6%9E%84%E5%BB%BA%E6%A8%A1/</url>
+    <content><![CDATA[<h1 id="成果展示"><a href="#成果展示" class="headerlink" title="成果展示"></a>成果展示</h1><ul>
+<li><p>基于Creo 教育版 9.0</p>
+<p><img src="/2024/09/21/%E5%9F%BA%E4%BA%8ECreo%E7%9A%84%E6%B4%BB%E5%A1%9E%E6%9C%BA%E6%9E%84%E5%BB%BA%E6%A8%A1/image-20240920172438828.png" alt="image-20240920172438828"></p>
+</li>
+</ul>
+<img src="/2024/09/21/%E5%9F%BA%E4%BA%8ECreo%E7%9A%84%E6%B4%BB%E5%A1%9E%E6%9C%BA%E6%9E%84%E5%BB%BA%E6%A8%A1/WechatIMG335-6824041-6824048.jpg" alt="WechatIMG335" style="zoom:50%;">
+
+<img src="/2024/09/21/%E5%9F%BA%E4%BA%8ECreo%E7%9A%84%E6%B4%BB%E5%A1%9E%E6%9C%BA%E6%9E%84%E5%BB%BA%E6%A8%A1/image-20240920172150598.png" alt="image-20240920172150598" style="zoom:50%;">
+
+<p><img src="/2024/09/21/%E5%9F%BA%E4%BA%8ECreo%E7%9A%84%E6%B4%BB%E5%A1%9E%E6%9C%BA%E6%9E%84%E5%BB%BA%E6%A8%A1/image-20240920172209686.png" alt="image-20240920172209686"></p>
+<h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><ul>
+<li>Creo教育版和企业版是两个不互通的版本，双方都不能打开用对方开发的模型，所以在安装时务必注意⚠️版本选择</li>
+</ul>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>基本搭建流程</title>
+    <url>/2022/12/06/%E5%9F%BA%E6%9C%AC%E6%90%AD%E5%BB%BA%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="hexo博客的基本搭建流程（针对macos用户）"><a href="#hexo博客的基本搭建流程（针对macos用户）" class="headerlink" title="hexo博客的基本搭建流程（针对macos用户）"></a>hexo博客的基本搭建流程（针对macos用户）</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="一-安装git"><a href="#一-安装git" class="headerlink" title="一.安装git"></a>一.安装git</h3><ul>
+<li>借助homebrew安装git</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">brew install git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>判断是否安装成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+
+<p>如返回版本信息，证明安装成功</p>
+<h3 id="二-安装nodejs"><a href="#二-安装nodejs" class="headerlink" title="二.安装nodejs"></a>二.安装nodejs</h3><ul>
+<li>从官网找到安装包安装即可</li>
+<li>判断是否安装成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm -v</span><br><span class="line">node -v</span><br></pre></td></tr></table></figure>
+
+<p>如返回版本信息，证明安装成功</p>
+<h3 id="三-安装hexo"><a href="#三-安装hexo" class="headerlink" title="三.安装hexo"></a>三.安装hexo</h3><ul>
+<li>输入下列指令安装</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>判断是否安装成功</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+
+<p>如果返回版本信息，证明安装成功</p>
+<h2 id="博客初始化"><a href="#博客初始化" class="headerlink" title="博客初始化"></a>博客初始化</h2><ul>
+<li><p>新建一个文件夹（比如myblog文件），作为博客项目文件(并且在terminal中将路径切换到该文件夹下)</p>
+</li>
+<li><p>输入下行代码对myblog文件夹进行博客初始化</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo init </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>初始化之后，myblog文件夹的内容开始丰富起来，可以看到如下文件架构<ul>
+<li>node_modules: 存放依赖包</li>
+<li>scaffolds：生成文章的一些模板</li>
+<li>source：用来存放你的文章(md文件)</li>
+<li>themes：主题</li>
+<li>_config.yml: 博客的配置文件</li>
+<li>package.json</li>
+<li>package-lock.json</li>
+<li>public（这个文件其实第一次hexo init之后不会出现，在第一次生成静态网页后会生成这个文件夹，它存放的是生成的静态网页）</li>
+</ul>
+</li>
+<li>接下来我们输入</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+
+<p>便可以生成一个静态网页（在本地端口上）（其中代码中的g是generate的缩写）</p>
+<ul>
+<li>如果想在本地端口上显示这个生成的静态网页，只需要输入</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<p>​	便可以在本地浏览这个基于静态网页的博客（其中代码中的s是server的缩写）</p>
+]]></content>
+      <categories>
+        <category>hexo博客搭建</category>
+        <category>基础入门</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>文章模版的创建与使用</title>
+    <url>/2022/12/06/%E6%A8%A1%E7%89%88%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="一-问题产生背景"><a href="#一-问题产生背景" class="headerlink" title="一.问题产生背景"></a>一.问题产生背景</h2><ul>
+<li>每日工作总结的格式固定，创建模版可以提高文档制作效率</li>
+<li>后文将以每日工作总结的制作为例</li>
+</ul>
+<h2 id="二-如何创建模版"><a href="#二-如何创建模版" class="headerlink" title="二.如何创建模版"></a>二.如何创建模版</h2><ul>
+<li>在hexo框架中，模版文件保存在博客项目目录下的scaffolds文件夹中，所以我们只需要在该目录下创建md文件，书写模版内容即可</li>
+<li>首先我创建md文件，文件名称为dailywork.md</li>
+<li>在模版文件开头不要遗漏Front matter内容，如下是我的个人总结的Front matter格式</li>
+</ul>
+<p><img src="/2022/12/06/%E6%A8%A1%E7%89%88%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/image-20221206144824503.png" alt="image-20221206144824503"></p>
+<ul>
+<li>正文正常编辑md文件，我制作的格式如下</li>
+</ul>
+<p><img src="/2022/12/06/%E6%A8%A1%E7%89%88%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/image-20221206144934594.png" alt="image-20221206144934594"></p>
+<h2 id="三-如何使用模版"><a href="#三-如何使用模版" class="headerlink" title="三.如何使用模版"></a>三.如何使用模版</h2><p>在新建文件时，只需要在终端中输入下列命令即可(Dec06.md是我想创建的文件的文件名，dailywork是模版文件名)</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo new dailywork Dec06</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>hexo博客搭建</category>
+        <category>hexo进阶</category>
+      </categories>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>links</title>
+    <url>/links/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>About</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>music</title>
+    <url>/music/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+</search>
