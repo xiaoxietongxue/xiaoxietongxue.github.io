@@ -828,24 +828,137 @@
       </categories>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/10/9S12G%E8%8A%AF%E7%89%87%E5%BC%80%E5%8F%91/</url>
+    <title>9S12G芯片开发</title>
+    <url>/2025/01/06/9S12G%E8%8A%AF%E7%89%87%E5%BC%80%E5%8F%91/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>嵌入式系统</category>
+      </categories>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/10/ESP32%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[]]></content>
+    <title>ESP32芯片开发</title>
+    <url>/2025/01/06/ESP32%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p>[toc]</p>
+<h1 id="硬件平台"><a href="#硬件平台" class="headerlink" title="硬件平台"></a>硬件平台</h1><p>正点原子配套ESP32S3开发版，有完整的配套资料（硬件原理图、例程等）,模块丰富</p>
+<h1 id="项目调研"><a href="#项目调研" class="headerlink" title="项目调研"></a>项目调研</h1><ul>
+<li>【基于ChatGPT的最佳ESP32项目 | 物联网项目 | NextPCB-哔哩哔哩】 <a href="https://b23.tv/jz4gsY0">https://b23.tv/jz4gsY0</a></li>
+<li>【Esp-SparkBot复刻成功,PCB 板焊接图片 视频教程-哔哩哔哩】 <a href="https://b23.tv/2TAGbCU">https://b23.tv/2TAGbCU</a></li>
+</ul>
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><ul>
+<li><p>Arduino 2开发平台</p>
+</li>
+<li><p>macOS M3max Sonoma  14.3</p>
+</li>
+</ul>
+<p>直接在arduino安装esp32支持包，报错</p>
+<img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250113095837540.png" alt="image-20250113095837540" style="zoom:50%;">
+
+<p><img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250113095907210.png" alt="image-20250113095907210"></p>
+<p>挂梯子也没用</p>
+<p>参考<a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#macos%E8%BF%9B%E8%A1%8C%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85">https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html#macos进行离线安装</a></p>
+<p>成功解决，在设备栏里出现了ESP32的菜单</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><ul>
+<li>配置好board （ESP32S3 Dev Module）</li>
+<li>配置好Port           <img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250113113514378.png" alt="image-20250113113514378" style="zoom:33%;"></li>
+</ul>
+<p>烧录LED闪烁程序成功，LED正常亮灭</p>
+<h2 id="串口通信配置"><a href="#串口通信配置" class="headerlink" title="串口通信配置"></a>串口通信配置</h2><ul>
+<li>下载CH340 USB转串口驱动</li>
+</ul>
+<p><a href="https://www.wch.cn/downloads/CH34XSER_MAC_ZIP.html">https://www.wch.cn/downloads/CH34XSER_MAC_ZIP.html</a></p>
+<h2 id="定时器测试"><a href="#定时器测试" class="headerlink" title="定时器测试"></a>定时器测试</h2><ul>
+<li><p>使用正点原子程序TimerBegin函数报错（参数不匹配），疑似功能包版本不匹配，需要对程序做相应的修改</p>
+<p><a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/api/timer.html">https://docs.espressif.com/projects/arduino-esp32/en/latest/api/timer.html</a></p>
+<p><a href="https://wiki.lckfb.com/zh-hans/esp32s3r8n8/arduino-beginner/timer.html">https://wiki.lckfb.com/zh-hans/esp32s3r8n8/arduino-beginner/timer.html</a></p>
+<p>可以参考如上两个文档，基于新更新的定时器库对定时器模块进行修改</p>
+</li>
+</ul>
+<h2 id="串口测试"><a href="#串口测试" class="headerlink" title="串口测试"></a>串口测试</h2><ul>
+<li>需要在macbook上安装CH340驱动，意外的发现可以直接通过串口给ESP32板子供电，省了一根电源线</li>
+<li>记录一个小bug：A fatal error occurred: Unable to verify flash chip connection (No serial data received.).</li>
+</ul>
+<p><a href="https://blog.aidec.tw/post/esp32-fatal-error-occurred">https://blog.aidec.tw/post/esp32-fatal-error-occurred</a></p>
+<h2 id="ADC测试"><a href="#ADC测试" class="headerlink" title="ADC测试"></a>ADC测试</h2><ul>
+<li>正点原子官方提供的历程是要在LCD显示的，但是我没买屏幕，所以借住串口显示</li>
+<li>测试正常</li>
+</ul>
+<p><img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250117210103509.png" alt="image-20250117210103509"></p>
+<h2 id="加速度计qma6100p驱动开发"><a href="#加速度计qma6100p驱动开发" class="headerlink" title="加速度计qma6100p驱动开发"></a>加速度计qma6100p驱动开发</h2><h2 id="I2C"><a href="#I2C" class="headerlink" title="I2C"></a>I2C</h2><h2 id="I2C通信读取24C02"><a href="#I2C通信读取24C02" class="headerlink" title="I2C通信读取24C02"></a>I2C通信读取24C02</h2><h3 id="24C02"><a href="#24C02" class="headerlink" title="24C02"></a>24C02</h3><p>24C02是一个2Kbit的串行EEPROM存储芯片，可存储256个字节数据。工作电压范围为1.8V到6.0V，具有低功耗CMOS技术，自定时擦写周期，1000000次编程&#x2F;擦除周期，可保存数据100年。24C02有一个16字节的页写缓冲器和一个写保护功能。通过I2C总线通讯读写芯片数据，通讯时钟频率可达400KHz。</p>
+<p>可以通过存储IC的型号来计算芯片的存储容量是多大，比如24C02后面的02表示的是可存储2Kbit的数据，转换为字节的存储量为21024&#x2F;8 &#x3D; 256byte；有比如24C04后面的04表示的是可存储4Kbit的数据，转换为字节的储存量为41024&#x2F;8 &#x3D; 512byte;以此来类推其它型号的存储空间。</p>
+<p><img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250119114441206.png" alt="image-20250119114441206"></p>
+<p><img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250119114627411.png" alt="image-20250119114627411"></p>
+<h2 id="DHT11-温度传感器数据读取"><a href="#DHT11-温度传感器数据读取" class="headerlink" title="DHT11-温度传感器数据读取"></a>DHT11-温度传感器数据读取</h2><h2 id="WIFI客户端与服务器测试"><a href="#WIFI客户端与服务器测试" class="headerlink" title="WIFI客户端与服务器测试"></a>WIFI客户端与服务器测试</h2><ul>
+<li>注意WIFI连接只能连接2.4G频段的wifi，否则连接不上</li>
+</ul>
+<img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250117220212430.png" alt="image-20250117220212430" style="zoom:50%;">
+
+<ul>
+<li>测试成功</li>
+</ul>
+<h2 id="音频功放输出"><a href="#音频功放输出" class="headerlink" title="音频功放输出"></a>音频功放输出</h2><p><a href="https://www.bilibili.com/video/BV1jA411Q7Td/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">https://www.bilibili.com/video/BV1jA411Q7Td/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2d5ec0a230549ed2b672ea4be8a2cc58</a></p>
+<h2 id="麦克风音频读取"><a href="#麦克风音频读取" class="headerlink" title="麦克风音频读取"></a>麦克风音频读取</h2><ul>
+<li>板载音频编解码芯片ES8388</li>
+</ul>
+<p><img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250117221643237.png" alt="image-20250117221643237"></p>
+<h3 id="CODEC知识学习"><a href="#CODEC知识学习" class="headerlink" title="CODEC知识学习"></a>CODEC知识学习</h3><p><a href="https://blog.csdn.net/BHJ1119/article/details/81533342">https://blog.csdn.net/BHJ1119/article/details/81533342</a></p>
+<h2 id="macos-esp32-idf开发环境配置"><a href="#macos-esp32-idf开发环境配置" class="headerlink" title="macos + esp32 + idf开发环境配置"></a>macos + esp32 + idf开发环境配置</h2><p>由于arduino开发速度实在感人，准备换一种开发方式。这是乐鑫官方推出的一种开发方式。</p>
+<p><img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250119171915512.png" alt="image-20250119171915512"></p>
+<ul>
+<li>macos配置esp32环境教程（idf）</li>
+</ul>
+<p><a href="https://espressif-docs.readthedocs-hosted.com/projects/esp-idf/zh-cn/v4.0/get-started/macos-setup.html">https://espressif-docs.readthedocs-hosted.com/projects/esp-idf/zh-cn/v4.0/get-started/macos-setup.html</a></p>
+<ul>
+<li>中间homebrew安装可以参考 <a href="https://blog.csdn.net/JOJO_mb/article/details/141440554">https://blog.csdn.net/JOJO_mb/article/details/141440554</a></li>
+</ul>
+<p>配置成功<br><img src="/2025/01/06/ESP32%E5%BC%80%E5%8F%91/image-20250119185926904.png" alt="image-20250119185926904"></p>
+<p>​	</p>
+]]></content>
+      <categories>
+        <category>嵌入式系统</category>
+      </categories>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/10/STM32%E5%BC%80%E5%8F%91/</url>
+    <title>STM32芯片开发</title>
+    <url>/2025/01/06/STM32%E5%BC%80%E5%8F%91/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>嵌入式系统</category>
+      </categories>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/01/10/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[]]></content>
+    <title>树莓派开发</title>
+    <url>/2025/01/06/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<h2 id="树莓派上电运行（无系统状态）"><a href="#树莓派上电运行（无系统状态）" class="headerlink" title="树莓派上电运行（无系统状态）"></a>树莓派上电运行（无系统状态）</h2><img src="/2025/01/06/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%BC%80%E5%8F%91/image-20250114135044475.png" alt="image-20250114135044475" style="zoom: 33%;">
+
+<h2 id="烧录Raspbian系统"><a href="#烧录Raspbian系统" class="headerlink" title="烧录Raspbian系统"></a>烧录Raspbian系统</h2><ul>
+<li><p>选用镜像raspios-bullseye-armhf(20220404),烧录到micro SD卡中，烧录需要先借助sdcardformatter将硬盘格式化为FAT32格式，才可以烧录镜像，烧录软件为Win32disk</p>
+</li>
+<li><p>将SD卡转移到树莓派上，之后会自动安装系统</p>
+</li>
+<li><p>接上键鼠，进行系统设置</p>
+</li>
+</ul>
+<img src="/2025/01/06/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%BC%80%E5%8F%91/image-20250114141026637.png" alt="image-20250114141026637" style="zoom: 33%;">
+
+<h2 id="安装vscode"><a href="#安装vscode" class="headerlink" title="安装vscode"></a>安装vscode</h2><h2 id="camera模块"><a href="#camera模块" class="headerlink" title="camera模块"></a>camera模块</h2><p><a href="https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/1%EF%BC%88%E9%87%8D%E7%82%B9%E5%85%B3%E6%B3%A8python%E4%BB%A3%E7%A0%81%E6%8E%A7%E5%88%B6%E7%9B%B8%E6%9C%BA%EF%BC%89">https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/1（重点关注python代码控制相机）</a></p>
+<h2 id="树莓派GPIO"><a href="#树莓派GPIO" class="headerlink" title="树莓派GPIO"></a>树莓派GPIO</h2><p><a href="https://pidoc.cn/gpiozero/">https://pidoc.cn/gpiozero/</a></p>
+<p><img src="/2025/01/06/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%BC%80%E5%8F%91/image-20250114150916436.png" alt="image-20250114150916436"></p>
+<p>使用树莓派原生thonny ide开发程序，在面包板上进行GPIO测试，LED正常闪烁（注：LED前加上电阻避免电流过大损伤树莓派）</p>
+<h2 id="Macbook通过SSH连接树莓派"><a href="#Macbook通过SSH连接树莓派" class="headerlink" title="Macbook通过SSH连接树莓派"></a>Macbook通过SSH连接树莓派</h2><p><a href="https://zhuanlan.zhihu.com/p/66735155">https://zhuanlan.zhihu.com/p/66735155</a></p>
+<img src="/2025/01/06/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%BC%80%E5%8F%91/image-20250114173604802.png" alt="image-20250114173604802" style="zoom:50%;">
+
+<p>192.168.3.16</p>
+<p>phoenix</p>
+<p>那个密码</p>
+<p>通过macos的终端直接采用ssh连接非常方便，缺点就是不能使用图形界面</p>
+<h3 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h3><ul>
+<li>SSH连接需要在同一个局域网下吗？</li>
+<li>Nope</li>
+</ul>
+]]></content>
+      <categories>
+        <category>嵌入式系统</category>
+      </categories>
   </entry>
   <entry>
     <title>电机控制学习资源收录</title>
@@ -859,6 +972,87 @@
     <title></title>
     <url>/2025/01/10/%E7%A1%AC%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E6%94%B6%E5%BD%95/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>NAS调研与部署</title>
+    <url>/2025/01/06/NAS%E8%B0%83%E7%A0%94/</url>
+    <content><![CDATA[<h2 id="NAS"><a href="#NAS" class="headerlink" title="NAS"></a>NAS</h2><ul>
+<li><p><a href="https://www.bilibili.com/video/BV1s814YTEjg/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">https://www.bilibili.com/video/BV1s814YTEjg/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2d5ec0a230549ed2b672ea4be8a2cc58</a></p>
+</li>
+<li><p>DXP 4800</p>
+</li>
+<li><p>小米NAS？</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术极客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>基于ESP32的智能家居系统开发</title>
+    <url>/2025/01/17/%E5%9F%BA%E4%BA%8EESP32%E8%8A%AF%E7%89%87%E7%9A%84%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<h2 id><a href="#" class="headerlink" title></a></h2><ul>
+<li><a href="https://www.bilibili.com/video/BV1j6DWYhEgg/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">https://www.bilibili.com/video/BV1j6DWYhEgg/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2d5ec0a230549ed2b672ea4be8a2cc58</a></li>
+</ul>
+<h2 id="ESP-home"><a href="#ESP-home" class="headerlink" title="ESP home"></a>ESP home</h2>]]></content>
+      <categories>
+        <category>嵌入式系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>基于ESP32的桌面机器人（集成AI功能）开发</title>
+    <url>/2025/01/17/%E6%B8%A9%E5%BA%A6%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<h2 id="复刻项目"><a href="#复刻项目" class="headerlink" title="复刻项目"></a>复刻项目</h2><p>硬件开源地址：</p>
+<p>软件开源地址：<a href="https://gitee.com/esp-friends/esp_sparkbot">https://gitee.com/esp-friends/esp_sparkbot</a></p>
+<h2 id="项目功能"><a href="#项目功能" class="headerlink" title="项目功能"></a>项目功能</h2>]]></content>
+      <categories>
+        <category>嵌入式系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>电子实验室建设</title>
+    <url>/2025/01/16/%E7%94%B5%E5%AD%90%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%BB%BA%E8%AE%BE/</url>
+    <content><![CDATA[<h1 id="设备采购"><a href="#设备采购" class="headerlink" title="设备采购"></a>设备采购</h1><h3 id="示波器选型"><a href="#示波器选型" class="headerlink" title="示波器选型"></a>示波器选型</h3><p><a href="https://www.bilibili.com/video/BV1QF411e72b/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">https://www.bilibili.com/video/BV1QF411e72b/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2d5ec0a230549ed2b672ea4be8a2cc58</a></p>
+<ul>
+<li>采样率（示波器的最高能力，实际采样率往往更低）</li>
+<li>存储深度</li>
+<li>带宽（决定示波器价格）：经过探头衰减到原来的0.707倍的信号对应的频率（探头可以看作一个RC低通滤波器），影响示波器波形准确性主要参数就是带宽<ul>
+<li>五倍法则：信号频率小于五分之一示波器带宽 ，此时衰减只有不到百分之二，可以忽略不计</li>
+</ul>
+</li>
+</ul>
+<p>关于示波器探头 <a href="https://www.bilibili.com/video/BV1Vz4y1J7K5/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">https://www.bilibili.com/video/BV1Vz4y1J7K5/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2d5ec0a230549ed2b672ea4be8a2cc58</a></p>
+<p>最后采购了普源的DS1102Z-E 200M带宽款，1499RMB</p>
+<p>两通道，1GSa&#x2F;s,存储深度24M</p>
+<img src="/2025/01/16/%E7%94%B5%E5%AD%90%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%BB%BA%E8%AE%BE/image-20250116104420619.png" alt="image-20250116104420619" style="zoom:50%;">
+
+
+
+<h3 id="可调电源选型"><a href="#可调电源选型" class="headerlink" title="可调电源选型"></a>可调电源选型</h3><ul>
+<li>交&#x2F;直流：市面上大多数都是直流电源</li>
+<li>电压源&#x2F;电流源</li>
+<li>功率 <a href="https://www.bilibili.com/video/BV1344y1A76E/?spm_id_from=333.337.search-card.all.click&vd_source=2d5ec0a230549ed2b672ea4be8a2cc58">https://www.bilibili.com/video/BV1344y1A76E/?spm_id_from=333.337.search-card.all.click&amp;vd_source=2d5ec0a230549ed2b672ea4be8a2cc58</a><ul>
+<li><a href="https://blog.csdn.net/qq_42457960/article/details/88913719">https://blog.csdn.net/qq_42457960/article/details/88913719</a> 关于视在功率、有功功率、无功功率、功率因数</li>
+</ul>
+</li>
+<li>电压、电流范围</li>
+<li>电源精度</li>
+<li>纹波噪声</li>
+</ul>
+<p>最后拿下迈胜MS305D（0-30V，0-5A，150W）直流稳压电源，148RMB</p>
+<h3 id="焊台"><a href="#焊台" class="headerlink" title="焊台"></a>焊台</h3><h3 id="其他小件"><a href="#其他小件" class="headerlink" title="其他小件"></a>其他小件</h3><ul>
+<li>镊子</li>
+<li>助焊剂</li>
+<li>焊接丝</li>
+<li>锡膏</li>
+<li>铜丝球 </li>
+<li>吸锡器</li>
+</ul>
+<h3 id="升降桌"><a href="#升降桌" class="headerlink" title="升降桌"></a>升降桌</h3>]]></content>
+      <categories>
+        <category>嵌入式系统</category>
+      </categories>
   </entry>
   <entry>
     <title></title>
